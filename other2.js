@@ -9,7 +9,7 @@ export function outsideMethod2() {
 
     // current weather data
     const cloud = obj.current.cloud;
-    const conditon_text = obj.current.conditon.text;
+    const condition_text = obj.current.conditon.text;
     const feelsLike_f = obj.current.feelslike_f;
     const humidity = obj.current.humidity;
     // 1 = yes, 0 = no
@@ -47,7 +47,7 @@ export function outsideMethod2() {
 
         //weather
         const avgtemp_f = obj.forecast.forecastday[day].day.avgtemp_f;
-        const forecast_conditon_text = obj.forecast.forecastday[day].day.condition.text;
+        const forecast_condition_text = obj.forecast.forecastday[day].day.condition.text;
         const daily_chance_of_rain = obj.forecast.forecastday[day].day.daily_chance_of_rain;
         const daily_chance_of_snow = obj.forecast.forecastday[day].day.daily_chance_of_snow;
         const daily_will_it_rain = obj.forecast.forecastday[day].day.daily_will_it_rain;
