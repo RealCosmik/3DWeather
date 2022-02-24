@@ -8,13 +8,7 @@ export function outsideMethod2() {
         .then(data => obj = data)
         .then(data => console.log(data));
 
-    for(const i in obj){
-        for(const j in obj[i]){
-            for(const k in obj[i][j]){
 
-            }
-        }
-    }
 
 
 
