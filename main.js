@@ -12,7 +12,7 @@ const renderer = new THREE.WebGL1Renderer(
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 camera.position.setZ(30);
-const Geometry = new THREE.BoxGeometry(10, 10); // verticies 
+const Geometry = new THREE.BoxGeometry(10, 10); // vertices
 const material = new THREE.MeshBasicMaterial({ color: 0xFF6347, wireframe: true });
 const cube = new THREE.Mesh(Geometry, material);
 scene.add(cube);
