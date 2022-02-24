@@ -9,7 +9,6 @@ export function outsideMethod2() {
     }
     fetchWeatherJSON().then(obj => {
         // current weather data
-        console.log(obj)
         const cloud = obj.current.cloud;
         const condition_text = obj.current.condition.text;
         const feelsLike_f = obj.current.feelslike_f;
