@@ -61,7 +61,7 @@ export function outsideMethod2() {
     });
 
     /**
-     * @param {number} obj.forecast.forecastday.astro.moon_illumination -    Moon illumination as %
+     * @param {number} obj.forecast.forecastday.astro.moon_illumination - Moon illumination as %
      * @param {string} obj.forecast.forecastday.astro.moon_phase - Moon phases. Value returned: New Moon, Waxing Crescent, First Quarter, Waxing Gibbous, Full Moon, Waning Gibbous, Last Quarter, Waning Crescent
      * @param {string} obj.forecast.forecastday.astro.moonrise - Moonrise time
      * @param {string} obj.forecast.forecastday.astro.moonset - Moonset time
