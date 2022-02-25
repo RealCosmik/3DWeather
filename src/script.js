@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import * as dat from 'lil-gui'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import * as POLLING from "./other.js"
 /**
  * Base
  */
@@ -160,3 +161,6 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  }
  
  tick()
+
+ //Calling the Polling method in other.js
+ POLLING.outsideMethod();
