@@ -126,6 +126,6 @@ const tick = () => {
 tick();
 
 //Calling the Polling method in other.js
-POLLING.outsideMethod();
+//POLLING.outsideMethod();
 
 export { scene as mainScene };
