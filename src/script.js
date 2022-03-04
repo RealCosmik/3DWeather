@@ -13,7 +13,7 @@ var scene, camera, canvas, renderer;
 let previousTime = 0;
 var sceneUpdates = [];
 var controls;
-WeatherHelper.fetchWeatherJSON("London").then(InitalizeAppData)
+WeatherHelper.fetchWeatherJSON("02119").then(InitalizeAppData)
 
 function InitalizeAppData() {
   // Canvas

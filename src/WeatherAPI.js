@@ -4,6 +4,7 @@ export { cachedJson as WeatherData }
 export async function fetchWeatherJSON(location) {
     const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=e5fa685f438648b390a181343220302&q=${location}&days=1&aqi=no&alerts=no`);
     cachedJson = await response.json();
+    console.log(cachedJson);
     return cachedJson;
 }
 
