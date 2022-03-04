@@ -1,10 +1,9 @@
 import * as THREE from "three";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
-import { mainScene } from "../script";
 import { fetchWeatherJSON } from "../other2.js";
 
-export function Text() {
+export function Text(scene) {
 
     const location = 'london';
 
@@ -75,7 +74,7 @@ export function Text() {
             });
             const textMaterial = new THREE.MeshBasicMaterial({ wireframe: true });
             const text = new THREE.Mesh(textGeometry, textMaterial);
-            mainScene.add(text);
+            scene.add(text);
         });
     });
 }
