@@ -1,8 +1,27 @@
+import { Duck } from "../SceneObjects/Duck";
 import * as entry from "../script";
 import * as WeatherHelper from "../WeatherAPI";
-export function Initalize(scene, camera, canvas) {
-    console.log(WeatherHelper.WeatherData)
+import * as THREE from "three";
+export async function Initalize(scene, camera, canvas) {
+    // entry.ClearExceptCamera();
+    // await Duck(scene);
+    // AddLightsToScene(scene);
     entry.RegisterOnSceneUpdate(OnSceneUpdate);
+}
+function AddLightsToScene(scene) {
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    directionalLight.castShadow = true;
+    directionalLight.shadow.mapSize.set(1024, 1024);
+    directionalLight.shadow.camera.far = 15;
+    directionalLight.shadow.camera.left = -7;
+    directionalLight.shadow.camera.top = 7;
+    directionalLight.shadow.camera.right = 7;
+    directionalLight.shadow.camera.bottom = -7;
+    directionalLight.position.set(-5, 5, 0);
+    scene.add(directionalLight);
 }
 var currentTime = 0
 const maxTime = 500;

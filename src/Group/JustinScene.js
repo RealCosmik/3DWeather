@@ -3,7 +3,6 @@ import { Floor } from "../SceneObjects/Floor.js";
 import { Text } from "../SceneObjects/Text.js";
 import { Sun } from "../SceneObjects/Sun.js";
 import { Cloud } from "../SceneObjects/Cloud.js";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as entry from "../script";
 import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
@@ -13,15 +12,14 @@ var sunModel;
 var deltaY = 0;
 var incrase = true;
 const maxMovement = 1;
-export function Initalize(scene, camera, canvas) {
-    Duck(scene);
-    Text(scene, WeatherHelper.WeatherData.location.name);
-    sunModel = Sun(scene);
-    Cloud(scene);
-    Floor(scene);
-    controls = new OrbitControls(camera, canvas);
-    controls.target.set(0, 0.75, 0);
-    controls.enableDamping = true;
+var num = 0;
+export async function Initalize(scene, camera, canvas) {
+    await Duck(scene);
+    await Text(scene, WeatherHelper.WeatherData.location.name);
+    sunModel = await Sun(scene);
+    await Cloud(scene);
+    await Floor(scene);
+
     AddLightsToScene(scene);
     entry.RegisterOnSceneUpdate(Update);
 }
@@ -41,7 +39,6 @@ function AddLightsToScene(scene) {
     scene.add(directionalLight);
 }
 function Update(deltaTime) {
-    controls.update();
     deltaY += deltaTime;
     if (incrase)
         sunModel.position.y += deltaTime;

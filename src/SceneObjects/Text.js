@@ -1,14 +1,14 @@
 import * as THREE from "three";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
-export function Text(scene, message) {
+export async function Text(scene, message) {
 
     /**
      * Fonts
      */
     const fontLoader = new FontLoader();
 
-    fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
+    await fontLoader.loadAsync("/fonts/helvetiker_regular.typeface.json").then((font) => {
         const textGeometry = new TextGeometry(message, {
             font: font,
             size: 0.5,

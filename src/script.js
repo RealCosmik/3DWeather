@@ -6,13 +6,13 @@ import * as MichaelScene from "./Group/MichaelScene";
 import * as GithenduScene from "./Group/GithenduScene";
 import * as RichScene from "./Group/RichScene";
 import * as WeatherHelper from "./WeatherAPI";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-
-var scene, camera, canvas, renderer;
 const clock = new THREE.Clock();
+var scene, camera, canvas, renderer;
 let previousTime = 0;
 var sceneUpdates = [];
-
+var controls;
 WeatherHelper.fetchWeatherJSON("London").then(InitalizeAppData)
 
 function InitalizeAppData() {
@@ -58,28 +58,36 @@ function InitalizeAppData() {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.setSize(sizes.width, sizes.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  controls = new OrbitControls(camera, canvas);
+  controls.target.set(0, 0.75, 0);
+  controls.enableDamping = true;
+
+
   LoadInitalScenes();
   OnSceneUpdate();
 
 }
 
-function LoadInitalScenes() {
-  JustinScene.Initalize(scene, camera, canvas);
-  MichaelScene.Initalize(scene, camera, canvas);
-  RichScene.Initalize(scene, camera, canvas)
-  GithenduScene.Initalize(scene, camera, canvas)
+async function LoadInitalScenes() {
+  await JustinScene.Initalize(scene, camera, canvas);
+  await MichaelScene.Initalize(scene, camera, canvas);
+  await RichScene.Initalize(scene, camera, canvas)
+  await GithenduScene.Initalize(scene, camera, canvas)
 }
 
-/**
- * Animate
- */
 
 function OnSceneUpdate() {
   const elapsedTime = clock.getElapsedTime();
-  const deltaTime = elapsedTime - previousTime;
+  const currentFocus = document.hasFocus();
+  var deltaTime;
+  if (!currentFocus)
+    deltaTime = 0;
+  else
+    deltaTime = elapsedTime - previousTime;
+
   previousTime = elapsedTime;
-
-
+  controls.update();
   for (let i = 0; i < sceneUpdates.length; i++)
     sceneUpdates[i](deltaTime);
   renderer.render(scene, camera);
@@ -87,6 +95,10 @@ function OnSceneUpdate() {
   window.requestAnimationFrame(OnSceneUpdate);
 }
 
-export function RegisterOnSceneUpdate(sceneListener) {
-  sceneUpdates.push(sceneListener);
+export function RegisterOnSceneUpdate(updateCallback) {
+  sceneUpdates.push(updateCallback);
+}
+export function ClearExceptCamera() {
+  scene.clear();
+  scene.add(camera);
 }
