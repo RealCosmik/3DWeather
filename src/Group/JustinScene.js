@@ -6,15 +6,16 @@ import { Cloud } from "../SceneObjects/Cloud.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as entry from "../script";
 import * as THREE from "three";
+import * as WeatherHelper from "../WeatherAPI";
 
 var controls;
 var sunModel;
-var intialy;
 var deltaY = 0;
 var incrase = true;
+const maxMovement = 1;
 export function Initalize(scene, camera, canvas) {
     Duck(scene);
-    Text(scene);
+    Text(scene, WeatherHelper.WeatherData.location.name);
     sunModel = Sun(scene);
     Cloud(scene);
     Floor(scene);
@@ -23,7 +24,6 @@ export function Initalize(scene, camera, canvas) {
     controls.enableDamping = true;
     AddLightsToScene(scene);
     entry.RegisterOnSceneUpdate(Update);
-    intialy = sunModel.position.y;
 }
 function AddLightsToScene(scene) {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
@@ -47,7 +47,7 @@ function Update(deltaTime) {
         sunModel.position.y += deltaTime;
     else
         sunModel.position.y -= deltaTime;
-    if (deltaY >= 2) {
+    if (deltaY >= maxMovement) {
         incrase = !incrase;
         deltaY = 0;
     }

@@ -8,18 +8,6 @@ export function Sun(scene) {
     sphere.scale.y = 0.05;
     sphere.scale.z = 0.05;
     sphere.position.set(-0.5, 5.5, -0.5);
-
-    let time = Date.now();
     scene.add(sphere);
     return sphere;
-    const tick = () => {
-        const currentTime = Date.now();
-        const deltaTime = currentTime - time;
-        time = currentTime;
-
-        // Update objects
-
-        window.requestAnimationFrame(tick);
-    };
-    //tick()
 }
