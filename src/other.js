@@ -1,6 +1,6 @@
-import { outsideMethod2 } from "./other2.js";
+//import { outsideMethod2 } from "./other2.js";
 
-export function outsideMethod() {
+//xport function outsideMethod() {
   //Creating a date variable
   //  outsideMethod2();
   // const date = localtime;
@@ -11,4 +11,4 @@ export function outsideMethod() {
 
   //logging the time in the console
   // console.log(time1);
-}
+//}

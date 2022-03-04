@@ -6,28 +6,7 @@
         return await response.json();
     }
 
-    /**
-     * @param {Object} obj - WeatherAPI.com JSON response
-     * @param {Object} obj.current - Current weather object
-     * @param {number} obj.current.cloud - Cloud cover as percentage
-     * @param {string} obj.current.condition.text - Weather condition text
-     * @param {number} obj.current.feelslike_f - Feels like temperature in fahrenheit
-     * @param {number} obj.current.humidity - Humidity as percentage
-     * @param {number} obj.current.is_day - 1 = Yes 0 = No; Whether to show day condition icon or night icon
-     * @param {string} obj.current.last_updated - Local time when the real time data was updated.
-     * @param {number} obj.current.precip_in - Precipitation amount in inches
-     * @param {number} obj.current.precip_mm - Precipitation amount in millimeters
-     * @param {number} obj.current.temp_f - Temperature in fahrenheit
-     * @param {number} obj.current.wind_degree - Wind direction in degrees
-     * @param {string} obj.current.wind_dir - Wind direction as 16 point compass. e.g.: NSW
-     * @param {number} obj.current.wind_mph - Wind speed in miles per hour
-     * @param {string} obj.location.country - Location country
-     * @param {number} obj.location.lat - Latitude in decimal degree
-     * @param {string} obj.location.localtime - Local date and time
-     * @param {number} obj.location.localtime_epoch - Local date and time in unix time
-     * @param {number} obj.location.lon - Longitude in decimal degree
-     * @param {string} obj.location.tz_id - Time zone name
-     */
+    /*
     fetchWeatherJSON().then(obj => {
         // current weather data
         console.log(obj)
@@ -56,7 +35,7 @@
         const region = obj.location.region;
         const tz_id = obj.location.tz_id;
     });
-
+    */
     /**
      * @param {number} obj.forecast.forecastday.astro.moon_illumination - Moon illumination as %
      * @param {string} obj.forecast.forecastday.astro.moon_phase - Moon phases. Value returned: New Moon, Waxing Crescent, First Quarter, Waxing Gibbous, Full Moon, Waning Gibbous, Last Quarter, Waning Crescent
