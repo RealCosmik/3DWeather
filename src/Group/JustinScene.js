@@ -8,10 +8,14 @@ import * as entry from "../script";
 import * as THREE from "three";
 
 var controls;
+var sunModel;
+var intialy;
+var deltaY = 0;
+var incrase = true;
 export function Initalize(scene, camera, canvas) {
     Duck(scene);
     Text(scene);
-    Sun(scene);
+    sunModel = Sun(scene);
     Cloud(scene);
     Floor(scene);
     controls = new OrbitControls(camera, canvas);
@@ -19,6 +23,7 @@ export function Initalize(scene, camera, canvas) {
     controls.enableDamping = true;
     AddLightsToScene(scene);
     entry.RegisterOnSceneUpdate(Update);
+    intialy = sunModel.position.y;
 }
 function AddLightsToScene(scene) {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
@@ -35,6 +40,15 @@ function AddLightsToScene(scene) {
     directionalLight.position.set(-5, 5, 0);
     scene.add(directionalLight);
 }
-function Update() {
+function Update(deltaTime) {
     controls.update();
+    deltaY += deltaTime;
+    if (incrase)
+        sunModel.position.y += deltaTime;
+    else
+        sunModel.position.y -= deltaTime;
+    if (deltaY >= 2) {
+        incrase = !incrase;
+        deltaY = 0;
+    }
 }

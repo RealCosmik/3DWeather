@@ -73,7 +73,7 @@ function tick() {
     mixer.update(deltaTime);
   }
   for (let i = 0; i < onSceneTick.length; i++) {
-    onSceneTick[i]();
+    onSceneTick[i](deltaTime);
   }
   // Render
   renderer.render(scene, camera);
