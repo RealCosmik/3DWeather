@@ -1,8 +1,7 @@
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { mainScene } from "../script";
 
-export function Duck() {
+export function Duck(scene) {
   /**
    * Duck
    */
@@ -18,7 +17,7 @@ export function Duck() {
       gltf.scene.scale.set(1, 1, 1);
       gltf.scene.position.set(-1, 0, 0.4);
       for (const child of gltf.scenes) {
-        mainScene.add(child);
+        scene.add(child);
       }
     },
     (progress) => {

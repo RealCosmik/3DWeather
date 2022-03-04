@@ -2,7 +2,7 @@ import { outsideMethod2 } from "./other2.js";
 
 export function outsideMethod() {
   //Creating a date variable
-  outsideMethod2();
+  //  outsideMethod2();
   // const date = localtime;
   //Local time in yyyy-MM-dd HH:mm format
 

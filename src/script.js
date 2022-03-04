@@ -1,53 +1,20 @@
 import "./style.css";
 import * as THREE from "three";
 import * as dat from "lil-gui";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import * as POLLING from "./other.js";
-import { Duck } from "./SceneObjects/Duck.js";
-import { Floor } from "./SceneObjects/Floor.js";
-import { Text } from "./SceneObjects/Text.js";
-import { Sun } from "./SceneObjects/Sun.js";
-import { Cloud } from "./SceneObjects/Cloud.js";
+import * as JustinScene from "./Group/JustinScene";
+import * as MichaelScene from "./Group/MichaelScene";
 
-/**
- * Base
- */
-// Debug
 const gui = new dat.GUI();
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
-
 // Scene
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xadd8e6);
 
 let mixer = null;
 
-// Models
-Duck();
-Floor();
-Text();
-Sun();
-Cloud();
-
-/**
- * Lights
- */
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-directionalLight.castShadow = true;
-directionalLight.shadow.mapSize.set(1024, 1024);
-directionalLight.shadow.camera.far = 15;
-directionalLight.shadow.camera.left = -7;
-directionalLight.shadow.camera.top = 7;
-directionalLight.shadow.camera.right = 7;
-directionalLight.shadow.camera.bottom = -7;
-directionalLight.position.set(-5, 5, 0);
-scene.add(directionalLight);
-
+var onSceneTick = [];
 // Sizes
 const sizes = {
   width: window.innerWidth,
@@ -68,10 +35,6 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
-/**
- * Camera
- */
-// Base camera
 const camera = new THREE.PerspectiveCamera(
   50,
   sizes.width / sizes.height,
@@ -82,9 +45,6 @@ camera.position.set(10, 10, 10);
 scene.add(camera);
 
 // Controls
-const controls = new OrbitControls(camera, canvas);
-controls.target.set(0, 0.75, 0);
-controls.enableDamping = true;
 
 /**
  * Renderer
@@ -103,7 +63,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const clock = new THREE.Clock();
 let previousTime = 0;
 
-const tick = () => {
+function tick() {
   const elapsedTime = clock.getElapsedTime();
   const deltaTime = elapsedTime - previousTime;
   previousTime = elapsedTime;
@@ -112,10 +72,9 @@ const tick = () => {
   if (mixer) {
     mixer.update(deltaTime);
   }
-
-  // Update controls
-  controls.update();
-
+  for (let i = 0; i < onSceneTick.length; i++) {
+    onSceneTick[i]();
+  }
   // Render
   renderer.render(scene, camera);
 
@@ -125,7 +84,9 @@ const tick = () => {
 
 tick();
 
-//Calling the Polling method in other.js
-POLLING.outsideMethod();
+JustinScene.Initalize(scene, camera, canvas);
+MichaelScene.Initalize(scene, camera, canvas);
 
-export { scene as mainScene };
+export function RegisterOnSceneUpdate(sceneListener) {
+  onSceneTick.push(sceneListener);
+}

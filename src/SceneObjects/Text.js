@@ -1,15 +1,13 @@
 import * as THREE from "three";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
-import { outsideMethod2 } from "../other2";
-import { mainScene } from "../script";
 
-export function Text() {
+export function Text(scene) {
   /**
    * Fonts
    */
   const fontLoader = new FontLoader();
-  outsideMethod2();
+  // outsideMethod2();
 
   fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
     const textGeometry = new TextGeometry("Boston", {
@@ -25,6 +23,6 @@ export function Text() {
     });
     const textMaterial = new THREE.MeshBasicMaterial({ wireframe: true });
     const text = new THREE.Mesh(textGeometry, textMaterial);
-    mainScene.add(text);
+    scene.add(text);
   });
 }

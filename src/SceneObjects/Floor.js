@@ -1,7 +1,6 @@
 import * as THREE from "three";
-import { mainScene } from "../script";
 
-export function Floor() {
+export function Floor(scene) {
   /**
    * Floor
    */
@@ -16,5 +15,5 @@ export function Floor() {
   floor.receiveShadow = true;
   floor.rotation.x = -Math.PI * 0.5;
 
-  mainScene.add(floor);
+  scene.add(floor);
 }
