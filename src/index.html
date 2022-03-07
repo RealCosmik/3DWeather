@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Weather</title>
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -16,17 +17,19 @@
 
     <!-- Search Bar -->
     <div class="search_bar">
-        <div class ="input">
-            <input type = "text" placeholder="Enter ZipCode">
-            <!--<link rel="icon" type="image/png" href="..\static\textures\matcaps\xicon.png" />-->
-            <img src="..\static\textures\matcaps\xicon.png" alt="Search Icon" width="15" height="15">
-        </div>
+        <form class ="input">
+            <input type = "text" id =zip_input placeholder="Enter ZipCode">
+            <div class="search_button">
+                <button type="submit"><img src="..\static\textures\matcaps\search.png" alt="Search Icon" width="15" height="15"></button>
+            </div>
+        </form>
     </div>
+
     <!-- Search icon-->
-    <div class ="search_icon">
-        <!--<link rel="icon" type="image/png" href="..\static\textures\matcaps\search.png" />-->
+    <!--<div class ="search_icon">
         <img src="..\static\textures\matcaps\search.png" alt="Search Icon" width="10" height="10">
-    </div>
+        <link rel="icon" type="image/png" href="..\static\textures\matcaps\search.png" />
+    </div>-->
 
 </body>
 

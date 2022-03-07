@@ -5,12 +5,12 @@
 }
 
 html {
-    font-size: 50%;
+    font-size: 70%;
 }
 
 .search_bar{
     width: 100%;
-    height: 5rem;
+    height: 10rem;
     background-color: 255, 100, 100, 0;
     display: flex;
     justify-content: center;
@@ -28,7 +28,7 @@ html {
     background-color: transparent;
     border: none;
     border-bottom: 0.1rem solid #999;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     letter-spacing: .1rem;
     outline: none;
     color: #555;
@@ -41,9 +41,29 @@ html {
     cursor: pointer;
 }
 
-.search_icon{
+.search_button{
+    background: #111;
+    width: 10%;
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+}
+
+.search_button .input{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/*.search_icon{
     size: 1rem;
     position: absolute;
-    top: 1.7rem;
+    top: 25rem;
     right: calc(50% + 20rem)
 }
+
+.search_icon i{
+    color: #999;
+    cursor: pointer;
+}*/
