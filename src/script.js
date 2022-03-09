@@ -13,8 +13,10 @@ var scene, camera, canvas, renderer;
 let previousTime = 0;
 var sceneUpdates = [];
 var controls;
-export function LoadScene(zipcode) {
-  WeatherHelper.fetchWeatherJSON(zipcode).then(InitalizeAppData).catch(onErrorRecieved)
+var loadStatus = false;
+export async function LoadScene(zipcode) {
+  await WeatherHelper.fetchWeatherJSON(zipcode).then(InitalizeAppData).catch(onErrorRecieved)
+  return loadStatus;
 }
 function onErrorRecieved(reason) {
   let errorData = reason.message.split('*');
@@ -48,10 +50,10 @@ function onErrorRecieved(reason) {
   }
 }
 function InitalizeAppData(response) {
-  console.log(response);
   if (response.error) {
     throw new Error(response.error.message + "*" + response.error.code);
   }
+  loadStatus = true;
   // Canvas
   canvas = document.querySelector("canvas.webgl");
   // Scene
