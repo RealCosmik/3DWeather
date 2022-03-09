@@ -2,13 +2,13 @@ import * as THREE from "three";
 
 export async function Room(scene) {
   const room = new THREE.Group();
-  scene.add(room);
+  
 
   const wallLeft = new THREE.Mesh(
     new THREE.BoxGeometry(0.25, 5, 5),
     new THREE.MeshStandardMaterial({ color: "#FFFFFF" })
   );
-  
+
   wallLeft.position.x = -2.4;
   wallLeft.position.y = 2.5;
   wallLeft.position.z = -0.04;
@@ -32,6 +32,8 @@ export async function Room(scene) {
   wallFloor.position.z = 0;
   wallFloor.rotateY(300);
   room.add(wallFloor);
+    
+  scene.add(room);
 
   return room;
 }
