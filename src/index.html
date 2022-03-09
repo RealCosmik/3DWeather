@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Weather</title>
+    <!--Connection to the css file for styling-->
     <link rel="stylesheet" href="style.css">
 
 </head>
@@ -17,19 +18,18 @@
 
     <!-- Search Bar -->
     <div class="search_bar">
+        <!-- take note that form.input is what is listened to in RichScene.js-->
         <form class ="input">
+            <!--Below is where the text input field is declared. ("Type" is text, "id" is zip_input, and "Enter ZipCode" is the
+                default text seen in the search bar before the user starts typing)-->
             <input type = "text" id =zip_input placeholder="Enter ZipCode">
+            <!--Search button with the image as the icon-->
             <div class="search_button">
+                <!--Submit button with an icon image of "search.png"-->
                 <button type="submit"><img src="..\static\textures\matcaps\search.png" alt="Search Icon" width="15" height="15"></button>
             </div>
         </form>
     </div>
-
-    <!-- Search icon-->
-    <!--<div class ="search_icon">
-        <img src="..\static\textures\matcaps\search.png" alt="Search Icon" width="10" height="10">
-        <link rel="icon" type="image/png" href="..\static\textures\matcaps\search.png" />
-    </div>-->
 
 </body>
 
