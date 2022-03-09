@@ -7,38 +7,41 @@ import * as entry from "../script";
 import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
 
-var floorModel;
-var roomModel;
-
-var textLocation;
-var textTemperature;
-var textRegion;
-var textCondition;
-
 
 export async function Initalize(scene, camera, canvas) {
     scene.background = new THREE.Color(0x53789E);
+    var groupModels = new THREE.Group();
+    var groupTexts = new THREE.Group();
 
-    textLocation = await Text(scene, WeatherHelper.WeatherData.location.name);
+    var textLocation = await Text(scene, WeatherHelper.WeatherData.location.name);
     textLocation.position.set(-2.4, 4, 2)
     textLocation.rotateY(-300)
 
-    textRegion = await Text(scene, WeatherHelper.WeatherData.location.region);
+    var textRegion = await Text(scene, WeatherHelper.WeatherData.location.region);
     textRegion.position.set(-2.4, 3, 2)
     textRegion.rotateY(-300)
 
-    textCondition = await Text(scene, WeatherHelper.WeatherData.current.condition.text);
+    var textCondition = await Text(scene, WeatherHelper.WeatherData.current.condition.text);
     textCondition.position.set(-2.4, 2, 2)
     textCondition.rotateY(-300)
 
-    textTemperature = await Text(scene, WeatherHelper.WeatherData.current.temp_f);
+    var textTemperature = await Text(scene, WeatherHelper.WeatherData.current.temp_f);
     textTemperature.position.set(-2.4, 1, 2)
     textTemperature.rotateY(-300)
 
-    await Duck(scene);
-    await Cloud(scene);
-    floorModel = await Floor(scene);
-    roomModel = await Room(scene);
+    groupModels.add(await Duck(scene),
+    await Cloud(scene),
+    await Floor(scene),
+    await Room(scene))
+
+    groupModels.scale.set(8,8,8)
+    groupTexts.scale.set(5,5,5)
+    camera.far = 5000;
+    camera.position.set(80,80,80)
+
+    groupTexts.add(textLocation,textRegion,textCondition,textTemperature)
+
+    scene.add(groupModels,groupTexts)
     AddLightsToScene(scene);
     entry.RegisterOnSceneUpdate(Update);
 }
