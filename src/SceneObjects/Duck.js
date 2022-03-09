@@ -12,7 +12,7 @@ export async function Duck(scene) {
   await gltfLoader.loadAsync("/models/GLTF/Duck/Duck.gltf").then
     ((gltf) => {
       gltf.scene.scale.set(1, 1, 1);
-      gltf.scene.position.set(-1, 0, 0.4);
+      gltf.scene.position.set(0, 0, 0);
       for (const child of gltf.scenes) {
         scene.add(child);
       }

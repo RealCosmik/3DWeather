@@ -8,7 +8,7 @@ export async function Cloud(scene) {
   await fbxLoader.loadAsync("/models/FBX/Cloud/Cloud.fbx").then((fbx) => {
     for (const child of fbx.children) {
       child.scale.set(0.3, 0.3, 0.3);
-      child.position.set(0, 4, 0);
+      child.position.set(0, 4.5, 0);
       scene.add(child);
     }
   });

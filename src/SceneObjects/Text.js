@@ -7,11 +7,12 @@ export async function Text(scene, message) {
      * Fonts
      */
     const fontLoader = new FontLoader();
+    var textObject
 
     await fontLoader.loadAsync("/fonts/helvetiker_regular.typeface.json").then((font) => {
-        const textGeometry = new TextGeometry(message, {
+        const textGeometry = new TextGeometry(message.toString(), {
             font: font,
-            size: 0.5,
+            size: 0.4,
             height: 0.2,
             curveSegments: 12,
             bevelEnabled: true,
@@ -20,8 +21,13 @@ export async function Text(scene, message) {
             bevelOffset: 0,
             bevelSegments: 5,
         });
-        const textMaterial = new THREE.MeshBasicMaterial({ wireframe: true });
+        console.log(message)
+        const textMaterial = new THREE.MeshBasicMaterial();
+        //textMaterial.color.set(0x000000)
         const text = new THREE.Mesh(textGeometry, textMaterial);
+        textObject = text
         scene.add(text);
+        
     });
+    return textObject
 }

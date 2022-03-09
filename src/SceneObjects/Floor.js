@@ -16,5 +16,7 @@ export async function Floor(scene) {
     floor.rotation.x = -Math.PI * 0.5;
 
     scene.add(floor);
+    return floor
   });
+ 
 }
