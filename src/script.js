@@ -14,9 +14,44 @@ let previousTime = 0;
 var sceneUpdates = [];
 var controls;
 export function LoadScene(zipcode) {
-  WeatherHelper.fetchWeatherJSON(zipcode).then(InitalizeAppData)
+  WeatherHelper.fetchWeatherJSON(zipcode).then(InitalizeAppData).catch(onErrorRecieved)
 }
-function InitalizeAppData() {
+function onErrorRecieved(reason) {
+  let errorData = reason.message.split('*');
+  let errorMessage = errorData[0];
+  let errorCode = errorData[1];
+  switch (errorCode) {
+    case "1002":
+      alert("Please come back later tech prblms");
+      break;
+    case "1003":
+      alert("enter valid location");
+      break;
+    case "1005":
+      alert(errorMessage);
+      break;
+    case "1006":
+      alert(errorMessage);
+      break;
+    case "2006":
+      alert("Please come back later tech prblms");
+      break;
+    case "2007":
+      alert("we are poor and cant use api anymore sorry");
+      break;
+    case "2008":
+      alert("api key broke");
+      break;
+    default:
+      alert("unkown error try again!");
+      break;
+  }
+}
+function InitalizeAppData(response) {
+  console.log(response);
+  if (response.error) {
+    throw new Error(response.error.message + "*" + response.error.code);
+  }
   // Canvas
   canvas = document.querySelector("canvas.webgl");
   // Scene

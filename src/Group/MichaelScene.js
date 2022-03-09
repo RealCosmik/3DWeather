@@ -1,11 +1,10 @@
 import { Duck } from "../SceneObjects/Duck";
+import { Sun } from "../SceneObjects/Sun"
 import * as entry from "../script";
 import * as WeatherHelper from "../WeatherAPI";
 import * as THREE from "three";
 export async function Initalize(scene, camera, canvas) {
-    // entry.ClearExceptCamera();
-    // await Duck(scene);
-    // AddLightsToScene(scene);
+    //  entry.ClearExceptCamera();
     entry.RegisterOnSceneUpdate(OnSceneUpdate);
 }
 function AddLightsToScene(scene) {
