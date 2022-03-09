@@ -5,6 +5,7 @@ export async function Floor(scene) {
    * Floor
    */
   const textureLoader = new THREE.TextureLoader();
+  var floorObject
   await textureLoader.loadAsync("/textures/matcaps/7.png").then((texture) => {
     const floor = new THREE.Mesh(
       new THREE.PlaneGeometry(10, 10),
@@ -15,8 +16,9 @@ export async function Floor(scene) {
     floor.receiveShadow = true;
     floor.rotation.x = -Math.PI * 0.5;
 
-    scene.add(floor);
-    return floor
+    floorObject = floor;
+    scene.add(floorObject)
+    
   });
- 
+  return floorObject
 }

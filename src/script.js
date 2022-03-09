@@ -14,6 +14,7 @@ let previousTime = 0;
 var sceneUpdates = [];
 var controls;
 var loadStatus = false;
+// WeatherHelper.fetchWeatherJSON("Boston").then(InitalizeAppData).catch(onErrorRecieved)
 export async function LoadScene(zipcode) {
   await WeatherHelper.fetchWeatherJSON(zipcode).then(InitalizeAppData).catch(onErrorRecieved)
   return loadStatus;
@@ -84,7 +85,7 @@ function InitalizeAppData(response) {
     50,
     sizes.width / sizes.height,
     0.1,
-    100
+    2000
   );
   camera.position.set(10, 10, 10);
   scene.add(camera);
@@ -124,6 +125,7 @@ function OnSceneUpdate() {
     deltaTime = elapsedTime - previousTime;
 
   previousTime = elapsedTime;
+  camera.updateProjectionMatrix();
   controls.update();
   for (let i = 0; i < sceneUpdates.length; i++)
     sceneUpdates[i](deltaTime);

@@ -7,14 +7,16 @@ export async function Duck(scene) {
    */
   const dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderPath("/draco/");
+
   const gltfLoader = new GLTFLoader();
   gltfLoader.setDRACOLoader(dracoLoader);
+  var ducky
   await gltfLoader.loadAsync("/models/GLTF/Duck/Duck.gltf").then
     ((gltf) => {
       gltf.scene.scale.set(1, 1, 1);
-      gltf.scene.position.set(0, 0, 0);
-      for (const child of gltf.scenes) {
-        scene.add(child);
-      }
+      ducky = gltf.scene;
+      scene.add(ducky)
+      
     });
+    return ducky
 }
