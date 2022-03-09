@@ -13,8 +13,9 @@ var scene, camera, canvas, renderer;
 let previousTime = 0;
 var sceneUpdates = [];
 var controls;
-WeatherHelper.fetchWeatherJSON("02119").then(InitalizeAppData)
-
+export function LoadScene(zipcode) {
+  WeatherHelper.fetchWeatherJSON(zipcode).then(InitalizeAppData)
+}
 function InitalizeAppData() {
   // Canvas
   canvas = document.querySelector("canvas.webgl");
@@ -72,7 +73,6 @@ function InitalizeAppData() {
 async function LoadInitalScenes() {
   await JustinScene.Initalize(scene, camera, canvas);
   await MichaelScene.Initalize(scene, camera, canvas);
-  await RichScene.Initalize(scene, camera, canvas)
   await GithenduScene.Initalize(scene, camera, canvas)
 }
 
