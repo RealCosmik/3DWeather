@@ -1,11 +1,16 @@
-import { Duck } from "../SceneObjects/Duck";
 import { Sun } from "../SceneObjects/Sun"
 import * as entry from "../script";
-import * as WeatherHelper from "../WeatherAPI";
 import * as THREE from "three";
+
+var deltaY = 0;
+var increase = true;
+var num = 0;
+var sunModel;
+const maxMovement = 1;
 export async function Initalize(scene, camera, canvas) {
     //  entry.ClearExceptCamera();
     entry.RegisterOnSceneUpdate(OnSceneUpdate);
+    sunModel = await Sun(scene);
 }
 function AddLightsToScene(scene) {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
@@ -22,12 +27,14 @@ function AddLightsToScene(scene) {
     directionalLight.position.set(-5, 5, 0);
     scene.add(directionalLight);
 }
-var currentTime = 0
-const maxTime = 500;
 function OnSceneUpdate(deltaTime) {
-    currentTime += deltaTime;
-    if (currentTime >= maxTime) {
-        // dostuff;
-        currentTime = 0;
+    deltaY += deltaTime;
+    if (increase)
+        sunModel.position.y += deltaTime;
+    else
+        sunModel.position.y -= deltaTime;
+    if (deltaY >= maxMovement) {
+        increase = !increase;
+        deltaY = 0;
     }
 }

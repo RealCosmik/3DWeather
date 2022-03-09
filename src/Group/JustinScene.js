@@ -1,7 +1,6 @@
 import { Duck } from "../SceneObjects/Duck.js";
 import { Floor } from "../SceneObjects/Floor.js";
 import { Text } from "../SceneObjects/Text.js";
-import { Sun } from "../SceneObjects/Sun.js";
 import { Cloud } from "../SceneObjects/Cloud.js";
 import { Room } from "../SceneObjects/Room.js";
 import * as entry from "../script";
@@ -9,7 +8,6 @@ import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
 
 
-var sunModel;
 var floorModel;
 var roomModel;
 
@@ -18,20 +16,16 @@ var textTemperature;
 var textRegion;
 var textCondition;
 
-var deltaY = 0;
-var increase = true;
-const maxMovement = 1;
-var num = 0;
 
 export async function Initalize(scene, camera, canvas) {
     scene.background = new THREE.Color(0x53789E);
 
     textLocation = await Text(scene, WeatherHelper.WeatherData.location.name);
-    textLocation.position.set(-2.4,4,2)
+    textLocation.position.set(-2.4, 4, 2)
     textLocation.rotateY(-300)
 
     textRegion = await Text(scene, WeatherHelper.WeatherData.location.region);
-    textRegion.position.set(-2.4,3,2)
+    textRegion.position.set(-2.4, 3, 2)
     textRegion.rotateY(-300)
 
     textCondition = await Text(scene, WeatherHelper.WeatherData.current.condition.text);
@@ -43,12 +37,9 @@ export async function Initalize(scene, camera, canvas) {
     textTemperature.rotateY(-300)
 
     await Duck(scene);
-    sunModel = await Sun(scene);
     await Cloud(scene);
     floorModel = await Floor(scene);
     roomModel = await Room(scene);
-
-
     AddLightsToScene(scene);
     entry.RegisterOnSceneUpdate(Update);
 }
@@ -86,13 +77,5 @@ function AddLightsToScene(scene) {
     scene.add(directionalLightCameraHelper)
 }
 function Update(deltaTime) {
-    deltaY += deltaTime;
-    if (increase)
-        sunModel.position.y += deltaTime;
-    else
-        sunModel.position.y -= deltaTime;
-    if (deltaY >= maxMovement) {
-        increase = !increase;
-        deltaY = 0;
-    }
+
 }
