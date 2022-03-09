@@ -7,7 +7,6 @@ import * as entry from "../script";
 import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
 
-
 var floorModel;
 var roomModel;
 
