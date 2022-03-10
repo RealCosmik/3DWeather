@@ -4,7 +4,6 @@
 <head>
     <!--Refresh the page every 300 seconds (5 minutes)-->
     <meta http-equiv="refresh" content="300">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Weather</title>
@@ -14,22 +13,23 @@
 </head>
 
 <body>
+    
     <!-- Search Bar -->
     <div class="search_bar" id="SearchBar">
         <!-- take note that form.input is what is listened to in RichScene.js-->
         <form class="input">
             <!--Below is where the text input field is declared. ("Type" is text, "id" is zip_input, and "Enter ZipCode" is the
                     default text seen in the search bar before the user starts typing)-->
-            <input type="text" id=zip_input placeholder="Enter ZipCode">
+            <input type="text" class="zip_input" id=zip_input placeholder="Enter Location">
             <!--Search button with the image as the icon-->
             <div class="search_button">
-                <!--Submit button with an icon image of "search.png"-->
-                <button type="submit"><img src="..\static\textures\matcaps\search.png" alt="Search Icon" width="15"
-                        height="15"></button>
             </div>
         </form>
     </div>
+
     <canvas class="webgl"></canvas>
+    <canvas class="webgl2"></canvas>
+    
 
 
 

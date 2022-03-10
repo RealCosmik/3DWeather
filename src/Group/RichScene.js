@@ -23,6 +23,6 @@ async function onSubmit(eventArgs) {
     //Logging the output to the console
     console.log("ZipValue Recieved: " + zipValue.toString());
     var didSceneLoad = await SceneLoader.LoadScene(zipValue);
-    if (didSceneLoad)
-        searchBar.remove();
+    // if (didSceneLoad)
+    //     searchBar.remove();
 }
