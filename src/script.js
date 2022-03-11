@@ -14,7 +14,7 @@ let previousTime = 0;
 var sceneUpdates = [];
 var controls;
 var loadStatus = false;
-// WeatherHelper.fetchWeatherJSON("Boston").then(InitalizeAppData).catch(onErrorRecieved)
+WeatherHelper.fetchWeatherJSON("Boston").then(InitalizeAppData).catch(onErrorRecieved)
 export async function LoadScene(zipcode) {
   await WeatherHelper.fetchWeatherJSON(zipcode).then(InitalizeAppData).catch(onErrorRecieved)
   return loadStatus;
@@ -110,8 +110,8 @@ function InitalizeAppData(response) {
 
 async function LoadInitalScenes() {
   await JustinScene.Initalize(scene, camera, canvas);
-  await MichaelScene.Initalize(scene, camera, canvas);
-  await GithenduScene.Initalize(scene, camera, canvas)
+  //await MichaelScene.Initalize(scene, camera, canvas);
+  //await GithenduScene.Initalize(scene, camera, canvas)
 }
 
 
@@ -130,7 +130,7 @@ function OnSceneUpdate() {
   for (let i = 0; i < sceneUpdates.length; i++)
     sceneUpdates[i](deltaTime);
   renderer.render(scene, camera);
-
+  console.log(camera.position)
   window.requestAnimationFrame(OnSceneUpdate);
 }
 
