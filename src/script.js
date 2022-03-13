@@ -110,6 +110,7 @@ function InitalizeAppData(response) {
 
 async function LoadInitalScenes() {
   await JustinScene.Initalize(scene, camera, canvas);
+  //await RichScene.Initalize(scene, camera, canvas);
   //await MichaelScene.Initalize(scene, camera, canvas);
   //await GithenduScene.Initalize(scene, camera, canvas)
 }
@@ -130,7 +131,7 @@ function OnSceneUpdate() {
   for (let i = 0; i < sceneUpdates.length; i++)
     sceneUpdates[i](deltaTime);
   renderer.render(scene, camera);
-  console.log(camera.position)
+  //console.log(camera.position)
   window.requestAnimationFrame(OnSceneUpdate);
 }
 

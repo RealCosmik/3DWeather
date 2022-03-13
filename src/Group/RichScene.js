@@ -2,6 +2,8 @@ import * as entry from "../script";
 import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
 import * as SceneLoader from "../script"
+import { Duck } from "../SceneObjects/Duck";
+import { Globe } from "../SceneObjects/Globe";
 export { zipValue as userZipCode };
 var zipValue;
 // This variable is the stored zipcode input by the user
@@ -25,4 +27,31 @@ async function onSubmit(eventArgs) {
     var didSceneLoad = await SceneLoader.LoadScene(zipValue);
     // if (didSceneLoad)
     //     searchBar.remove();
+}
+
+export async function Initalize(scene, camera, canvas) {
+    entry.ClearExceptCamera();
+    entry.RegisterOnSceneUpdate(OnSceneUpdate);
+    
+    //Test Sphere object
+    //var sphere = new THREE.SphereGeometry(15,32,16);
+
+    //points for point material
+    var points = new THREE.PointsMaterial({size: 0.010})
+
+    //Test duck object
+    //var duck = await Duck(scene)
+
+    //Loading the globe in
+    var globes = await Globe(scene)
+
+    //particle sphere 
+    //var particeSphere = new THREE.Points(globes, points)
+
+    
+    scene.add(globes);
+}
+
+function OnSceneUpdate(deltaTime){
+
 }
