@@ -1,33 +1,16 @@
-import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
-import * as THREE from "three";
+import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 
-export async function Globe(scene){
-
-    const stlLoader = new STLLoader();
-    var globe;
-
-    //BELOW CODE SOURCED FROM line 92 of the following repo
-    //https://github.com/mrdoob/three.js/blob/master/examples/webgl_loader_stl.html
-    const material = new THREE.MeshPhongMaterial( { color: 0xAAAAAA, 
-        specular: 0x111111, 
-        shininess: 200 } );
-
-    //BELOW CODE SOURCED FROM
-    //https://sbcode.net/threejs/loaders-stl/
-    stlLoader.load(
-        '/models/STL/earthmap.stl',
-        function (geometry) {
-            const mesh = new THREE.Mesh(geometry, material)
-            console.log(geometry)
-            scene.add(mesh)
-        },
-        (xhr) => {
-            //console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
-        },
-        (error) => {
-            console.log(error)
-        }
-    )
-
-
+export async function Globe(scene) {
+  /**
+   * Globe
+   */
+  const fbxLoader = new FBXLoader();
+  var globe;
+  await fbxLoader.loadAsync("/models/FBX/Globe/earthmap.fbx").then((fbx) => {
+    globe = fbx.children[0]
+    globe.scale.set(0.3, 0.3, 0.3);
+    globe.position.set(0, 4.5, 0);
+    //scene.add(globe)
+  });
+  return globe;
 }

@@ -31,27 +31,81 @@ async function onSubmit(eventArgs) {
 
 export async function Initalize(scene, camera, canvas) {
     entry.ClearExceptCamera();
-    entry.RegisterOnSceneUpdate(OnSceneUpdate);
     
     //Test Sphere object
-    //var sphere = new THREE.SphereGeometry(15,32,16);
+    var sphere = new THREE.SphereGeometry(15,32,16);
 
     //points for point material
-    var points = new THREE.PointsMaterial({size: 0.010})
+    var points = new THREE.PointsMaterial({size: 0.1, color: "blue"})
+    //var points = new THREE.MeshBasicMaterial({color: 0xffffff})
 
     //Test duck object
     //var duck = await Duck(scene)
 
     //Loading the globe in
     var globes = await Globe(scene)
+    console.log(globes)
+    globes.scale.set(5,5,5)
 
-    //particle sphere 
-    //var particeSphere = new THREE.Points(globes, points)
+    // particle sphere 
+    globes.material = points
+    var particeSphere = new THREE.Points(globes.geometry, points)
+    particeSphere.
+    //var particeSphere = new THREE.Points(sphere, points)
+
+    // const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    // scene.add(ambientLight);
+
 
     
-    scene.add(globes);
+    scene.add(particeSphere);
+    //AddLightsToScene(scene);
+    entry.RegisterOnSceneUpdate(Update);
 }
 
-function OnSceneUpdate(deltaTime){
+
+function AddLightsToScene(scene) {
+    const hemisphereLight = new THREE.HemisphereLight(0xadd8e6, 0xffffff, 0.3);
+    scene.add(hemisphereLight);
+  
+    const pointLight = new THREE.PointLight(0xff9000, 0.4, 10, 2);
+    scene.add(pointLight);
+  
+    // const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    // scene.add(ambientLight);
+  
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    directionalLight.castShadow = true;
+    directionalLight.shadow.mapSize.set(1024, 1024);
+    directionalLight.shadow.camera.far = 15;
+    directionalLight.shadow.camera.left = -7;
+    directionalLight.shadow.camera.top = 10;
+    directionalLight.shadow.camera.right = 7;
+    directionalLight.shadow.camera.bottom = -7;
+    directionalLight.position.set(-5, 5, 0);
+    scene.add(directionalLight);
+  
+    const hemisphereLightHelper = new THREE.HemisphereLightHelper(
+      hemisphereLight,
+      0.2
+    );
+    scene.add(hemisphereLightHelper);
+  
+    const directionalLightHelper = new THREE.DirectionalLightHelper(
+      directionalLight,
+      0.2
+    );
+    scene.add(directionalLightHelper);
+  
+    const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2);
+    scene.add(pointLightHelper);
+  
+    const directionalLightCameraHelper = new THREE.CameraHelper(
+      directionalLight.shadow.camera
+    );
+    scene.add(directionalLightCameraHelper);
+  }
+  
+function Update(deltaTime) {
 
 }

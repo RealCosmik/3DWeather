@@ -31,7 +31,7 @@ export async function Initalize(scene, camera, canvas) {
 
   var textTemperature = await Text(
     scene,
-    WeatherHelper.WeatherData.current.temp_f
+    WeatherHelper.WeatherData.current.temp_f + " °F"
   );
   textTemperature.position.set(-2.4, 1, 2);
   textTemperature.rotateY(-300);
