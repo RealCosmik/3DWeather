@@ -5,4 +5,8 @@ export async function Initalize(scene, camera, canvas) {
     entry.RegisterOnSceneUpdate(OnSceneUpdate);
 }
 function OnSceneUpdate(deltaTime) {
+
+}
+export async function Initalize(scene, camera, canvas) {
+
 }
