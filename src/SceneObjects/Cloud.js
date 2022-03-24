@@ -10,7 +10,14 @@ export async function Cloud(scene) {
     cloud = fbx.children[0]
     cloud.scale.set(0.3, 0.3, 0.3);
     cloud.position.set(0, 4.5, 0);
-    scene.add(cloud)
+
+    // This is used for limiting the number of points rendered if you want to
+    // make a patricle model. Renders from 0 to (Max Number of points). Use
+    // Infinity as the upper bound to render the whole model
+    //cloud.geometry.setDrawRange(0, 20000)
+
+    // Below is not needed??
+    //scene.add(cloud)
   });
   return cloud;
 }

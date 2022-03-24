@@ -7,6 +7,6 @@ export async function Initalize(scene, camera, canvas) {
 function OnSceneUpdate(deltaTime) {
 
 }
-export async function Initalize(scene, camera, canvas) {
+// export async function Initalize(scene, camera, canvas) {
 
-}
+// }

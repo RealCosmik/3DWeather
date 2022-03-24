@@ -4,6 +4,7 @@ import * as WeatherHelper from "../WeatherAPI";
 import * as SceneLoader from "../script"
 import { Duck } from "../SceneObjects/Duck";
 import { Globe } from "../SceneObjects/Globe";
+import { Cloud } from "../SceneObjects/Cloud";
 export { zipValue as userZipCode };
 var zipValue;
 // This variable is the stored zipcode input by the user
@@ -43,14 +44,18 @@ export async function Initalize(scene, camera, canvas) {
     //var duck = await Duck(scene)
 
     //Loading the globe in
-    var globes = await Globe(scene)
-    console.log(globes)
-    globes.scale.set(5,5,5)
+    // var globes = await Globe(scene)
+    // console.log(globes)
+    // globes.scale.set(5,5,5)
+
+    var cloud = await Cloud(scene)
+    console.log(cloud)
+    cloud.scale.set(5,5,5)
 
     // particle sphere 
-    globes.material = points
-    var particeSphere = new THREE.Points(globes.geometry, points)
-    particeSphere.
+    cloud.material = points
+    var particeSphere = new THREE.Points(cloud.geometry, points)
+    //particeSphere.
     //var particeSphere = new THREE.Points(sphere, points)
 
     // const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);

@@ -5,6 +5,7 @@ import * as JustinScene from "./Group/JustinScene";
 import * as MichaelScene from "./Group/MichaelScene";
 import * as GithenduScene from "./Group/GithenduScene";
 import * as RichScene from "./Group/RichScene";
+import * as CloudScene from "./Group/CloudScene";
 import * as WeatherHelper from "./WeatherAPI";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
@@ -109,7 +110,8 @@ function InitalizeAppData(response) {
 }
 
 async function LoadInitalScenes() {
-  await JustinScene.Initalize(scene, camera, canvas);
+  //await JustinScene.Initalize(scene, camera, canvas);
+  await CloudScene.Initalize(scene, camera, canvas);
   //await RichScene.Initalize(scene, camera, canvas);
   //await MichaelScene.Initalize(scene, camera, canvas);
   //await GithenduScene.Initalize(scene, camera, canvas)
