@@ -12,7 +12,7 @@ export async function Initalize(scene, camera, canvas) {
   scene.background = new THREE.Color(0x53789e);
   var groupModels = new THREE.Group();
   var groupTexts = new THREE.Group();
-  //var groupSunCloud = new THREE.Group();
+  var groupClouds = new THREE.Group();
 
   var textLocation = await Text(scene, WeatherHelper.WeatherData.location.name);
   textLocation.position.set(-2.4, 4, 2);
@@ -36,24 +36,54 @@ export async function Initalize(scene, camera, canvas) {
   textTemperature.position.set(-2.4, 1, 2);
   textTemperature.rotateY(-300);
 
-  //groupSunCloud.add(await Cloud(scene), await Sun(scene));
-
-  var cloud1 = await Cloud(scene)
-  var cloud2 = await Cloud(scene)
-
-  scene.add(cloud1);
-  scene.add(cloud2);
-
   groupModels.add(await Duck(scene), await Floor(scene), await Room(scene));
 
   groupModels.scale.set(8, 8, 8);
   groupTexts.scale.set(8, 8, 8);
-  //groupSunCloud.scale.set(8, 8, 8);
-  //groupSunCloud.position.set(0,10.5,0)
+
+  //Creating 5 clouds
+  var cloud1 = await Cloud(scene)
+  var cloud2 = await Cloud(scene)
+  var cloud3 = await Cloud(scene)
+  var cloud4 = await Cloud(scene)
+  var cloud5 = await Cloud(scene)
+
+
+  /*
+    -There are multiple clouds in the scene simply clumped together 
+    -Individual Cloud scaling, and relative position in relation to one another can be changed
+    -position.set will move an individual cloud in the group around
+    -grouping of the clouds is below
+  */
+  //Cloud 1
   cloud1.scale.set(1, 1, 1);
-  cloud1.position.set(0,40,0)
+  cloud1.position.set(0,0,0);
+
+  //Cloud 2
   cloud2.scale.set(1, 1, 1);
-  cloud2.position.set(5,40,6)
+  cloud2.position.set(5,0,6);
+
+  //Cloud 3
+  cloud3.scale.set(1.5, 1.5, 1.8);
+  cloud3.position.set(-5,5,0);
+
+  //Cloud 4
+  cloud4.scale.set(1.2, 1.2, 1.2);
+  cloud4.position.set(4.5,-2.7,9);
+
+  //Cloud 5
+  cloud5.scale.set(1, 1, 1);
+  cloud5.position.set(-2,0,5);
+
+  //Grouping of clouds for easy movement and manipulation of all of them
+  groupClouds.add(cloud1, cloud2, cloud3, cloud4, cloud5)
+  
+  //Set position of all the coulds
+  groupClouds.position.set(0, 42, 0)
+
+  //Adding clouds to scene
+  scene.add(groupClouds)
+
   camera.far = 5000;
   camera.position.set(135.7, 56.5, 51.7);
 
@@ -83,11 +113,12 @@ function AddLightsToScene(scene) {
   directionalLight.castShadow = true;
   directionalLight.shadow.mapSize.set(1024, 1024);
   directionalLight.shadow.camera.far = 15;
-  directionalLight.shadow.camera.left = 0;
-  directionalLight.shadow.camera.top = 0;
-  directionalLight.shadow.camera.right = 0;
+  directionalLight.shadow.camera.left = -7;
+  directionalLight.shadow.camera.top = 10;
+  directionalLight.shadow.camera.right = 7;
   directionalLight.shadow.camera.bottom = -7;
-  directionalLight.position.set(-5, 5, 0);
+  directionalLight.position.set(0, 75, 0);
+  //directionalLight.
   scene.add(directionalLight);
 
   const hemisphereLightHelper = new THREE.HemisphereLightHelper(
