@@ -8,6 +8,15 @@ import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
 import { Sun } from "../SceneObjects/Sun.js";
 
+var deltaY = 0;
+var increase = true;
+const maxMovement = 1;
+var cloud1;
+var cloud2;
+var cloud3;
+var cloud4;
+var cloud5;
+
 export async function Initalize(scene, camera, canvas) {
   scene.background = new THREE.Color(0x53789e);
   var groupModels = new THREE.Group();
@@ -42,11 +51,11 @@ export async function Initalize(scene, camera, canvas) {
   groupTexts.scale.set(8, 8, 8);
 
   //Creating 5 clouds
-  var cloud1 = await Cloud(scene)
-  var cloud2 = await Cloud(scene)
-  var cloud3 = await Cloud(scene)
-  var cloud4 = await Cloud(scene)
-  var cloud5 = await Cloud(scene)
+  cloud1 = await Cloud(scene)
+  cloud2 = await Cloud(scene)
+  cloud3 = await Cloud(scene)
+  cloud4 = await Cloud(scene)
+  cloud5 = await Cloud(scene)
 
 
   /*
@@ -85,7 +94,7 @@ export async function Initalize(scene, camera, canvas) {
   scene.add(groupClouds)
 
   camera.far = 5000;
-  camera.position.set(135.7, 56.5, 51.7);
+  camera.position.set(135, 30, 45);
 
   groupTexts.add(textLocation, textRegion, textCondition, textTemperature);
 
@@ -96,7 +105,8 @@ export async function Initalize(scene, camera, canvas) {
   //scene.add(groupModels, groupTexts, groupSunCloud);
   scene.add(groupModels, groupTexts);
   AddLightsToScene(scene);
-  entry.RegisterOnSceneUpdate(Update);
+  // entry.RegisterOnSceneUpdate(Update);
+  entry.RegisterOnSceneUpdate(OnSceneUpdate);
 }
 
 function AddLightsToScene(scene) {
@@ -142,6 +152,22 @@ function AddLightsToScene(scene) {
   scene.add(directionalLightCameraHelper);
 }
 
-function Update(deltaTime) {
-
+function OnSceneUpdate(deltaTime) {
+  deltaY += deltaTime;
+  if (increase)
+      cloud1.position.y += deltaTime,
+      cloud2.position.y -= deltaTime,
+      cloud3.position.y += deltaTime,
+      cloud4.position.y -= deltaTime,
+      cloud5.position.y += deltaTime;
+  else
+      cloud1.position.y -= deltaTime,
+      cloud2.position.y += deltaTime,
+      cloud3.position.y -= deltaTime,
+      cloud4.position.y += deltaTime,
+      cloud5.position.y -= deltaTime;
+  if (deltaY >= maxMovement) {
+      increase = !increase;
+      deltaY = 0;
+  }
 }

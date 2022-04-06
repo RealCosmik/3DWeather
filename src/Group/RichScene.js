@@ -29,38 +29,37 @@ async function onSubmit(eventArgs) {
     //     searchBar.remove();
 }
 
+var deltaY = 0;
+var increase = true;
+var maxMovement = 1;
+var globes;
+var cloud;
+
 export async function Initalize(scene, camera, canvas) {
-    entry.ClearExceptCamera();
+    //entry.ClearExceptCamera();
+
+    camera.position.set(0, 0, 75);
 
     //Creating a group for both the globe and the text to be changed at same time
     const group = new THREE.Group();
     
+
+    //---THE LINES BELOW ARE GOING TO BE DELETED IN NEXT PUSH
+    /*
     //Test Sphere object (only needed for debugging)
     var sphere = new THREE.SphereGeometry(15,32,16);
 
     //points for point material
     var points = new THREE.PointsMaterial({size: .01, color: "blue"})
-
-    //Loading the globe in
-    var globes = await Globe(scene)
-    console.log(globes)
-
-    //---UNCOMMENT FOR CLOUD EXAMPLE---
-    // var cloud = await Cloud(scene)
-    // console.log(cloud)
-    // cloud.scale.set(5,5,5)
-
-    //particles for cloud
-    //cloud.material = points
+    */
 
 
-    globes.material = points
-    var particeSphere = new THREE.Points(globes.geometry, points)
-    //Adjust the scale of JUST the globe
-    particeSphere.scale.set(2,2,2);
-  
-    //adding the globe particlesphere to the group
-    group.add(particeSphere);
+    //GLOBE
+    globes = await Globe(scene)
+    globes.position.set(35,0,0);
+    group.add(globes);
+
+
 
     //WELCOME TEXT
     var welcomeText = await Text(
@@ -69,9 +68,17 @@ export async function Initalize(scene, camera, canvas) {
     );
     //Adjust the scale of JUST the text
     welcomeText.scale.set(5,5,5);
-    
-    //Add Welcome text to the group
+    welcomeText.position.set(-15,0,0);
     group.add(welcomeText);
+
+
+
+    //Cloud
+    cloud = await Cloud(scene)
+    cloud.scale.set(1.5,1.5,1.5);
+    cloud.rotateZ(180);
+    cloud.position.set(45,20,0);
+    group.add(cloud);
   
     //axes helper
     const axesHelper = new THREE.AxesHelper( 5 );
@@ -81,8 +88,8 @@ export async function Initalize(scene, camera, canvas) {
     //adding the group to the scene
     scene.add(group);
     
-    //AddLightsToScene(scene);
-    entry.RegisterOnSceneUpdate(Update);
+    AddLightsToScene(scene);
+    entry.RegisterOnSceneUpdate(OnSceneUpdate);
 }
 
 
@@ -128,7 +135,16 @@ function AddLightsToScene(scene) {
     );
     scene.add(directionalLightCameraHelper);
   }
-  
-function Update(deltaTime) {
 
+function OnSceneUpdate(deltaTime) {
+  deltaY += deltaTime;
+  if (increase)
+      cloud.position.y += deltaTime*.75;
+  else
+      cloud.position.y -= deltaTime*.75;
+  if (deltaY >= maxMovement) {
+      increase = !increase;
+      deltaY = 0;
+  }
+  globes.rotateZ(.004);
 }
