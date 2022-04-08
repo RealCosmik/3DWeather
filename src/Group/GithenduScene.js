@@ -38,6 +38,8 @@ export async function Initalize(scene, camera, canvas) {
 
     groupSunCloud.add(await Cloud(scene), await Sun(scene));
 
+    //Build Windmill
+
     Windmill = new THREE.Object3D();
     var base = new THREE.Mesh(
         new THREE.CylinderGeometry(1, 1, 1, 32, 3), white
@@ -89,6 +91,7 @@ export async function Initalize(scene, camera, canvas) {
     var blade3 = blade.clone();
     blade3.rotation.y = Math.PI/3 * 4;
 
+    //Building rotating compnents
     rotatingComponents.add(turbineShaft);
     rotatingComponents.add(endCap);
     rotatingComponents.add(blade);
@@ -103,7 +106,6 @@ export async function Initalize(scene, camera, canvas) {
     Windmill.add(rotatingComponents);
 
     groupModels.add(await Floor(scene), await Room(scene), Windmill(scene));
-
 
     groupModels.scale.set(8, 8, 8);
     groupTexts.scale.set(8, 8, 8);
