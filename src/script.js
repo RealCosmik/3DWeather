@@ -7,6 +7,7 @@ import * as GithenduScene from "./Group/GithenduScene";
 import * as RichScene from "./Group/RichScene";
 import * as CloudScene from "./Group/CloudScene";
 import * as WeatherHelper from "./WeatherAPI";
+import * as Onsubmit from "./OnSubmit";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 const clock = new THREE.Clock();
@@ -15,9 +16,10 @@ let previousTime = 0;
 var sceneUpdates = [];
 var controls;
 var loadStatus = false;
-WeatherHelper.fetchWeatherJSON("Boston").then(InitalizeAppData).catch(onErrorRecieved)
+InitalizeAppData()
+
 export async function LoadScene(zipcode) {
-  await WeatherHelper.fetchWeatherJSON(zipcode).then(InitalizeAppData).catch(onErrorRecieved)
+  await WeatherHelper.fetchWeatherJSON(zipcode).then(SceneSelector).catch(onErrorRecieved)
   return loadStatus;
 }
 function onErrorRecieved(reason) {
@@ -51,10 +53,7 @@ function onErrorRecieved(reason) {
       break;
   }
 }
-function InitalizeAppData(response) {
-  if (response.error) {
-    throw new Error(response.error.message + "*" + response.error.code);
-  }
+function InitalizeAppData() {
   loadStatus = true;
   // Canvas
   canvas = document.querySelector("canvas.webgl");
@@ -104,37 +103,35 @@ function InitalizeAppData(response) {
   controls.enableDamping = true;
 
 
-  LoadInitalScenes();
-  OnSceneUpdate();
+  RichScene.Initalize(scene, camera, canvas);
+  RenderLoop();
 
 }
 
-async function LoadInitalScenes() {
+async function SceneSelector(response) {
+  if (response.error) {
+    throw new Error(response.error.message + "*" + response.error.code);
+  }
+  ClearExceptCamera();
   //await JustinScene.Initalize(scene, camera, canvas);
   //await CloudScene.Initalize(scene, camera, canvas);
-  //await RichScene.Initalize(scene, camera, canvas);
   //await MichaelScene.Initalize(scene, camera, canvas);
-  await GithenduScene.Initalize(scene, camera, canvas)
+  await GithenduScene.Initalize(scene, camera, canvas, response)
 }
 
-
-function OnSceneUpdate() {
+function RenderLoop() {
   const elapsedTime = clock.getElapsedTime();
-  const currentFocus = document.hasFocus();
   var deltaTime;
-  if (!currentFocus)
-    deltaTime = 0;
-  else
-    deltaTime = elapsedTime - previousTime;
+  deltaTime = elapsedTime - previousTime;
 
   previousTime = elapsedTime;
   camera.updateProjectionMatrix();
   controls.update();
   for (let i = 0; i < sceneUpdates.length; i++)
     sceneUpdates[i](deltaTime);
+
   renderer.render(scene, camera);
-  //console.log(camera.position)
-  window.requestAnimationFrame(OnSceneUpdate);
+  window.requestAnimationFrame(RenderLoop);
 }
 
 export function RegisterOnSceneUpdate(updateCallback) {
@@ -143,4 +140,5 @@ export function RegisterOnSceneUpdate(updateCallback) {
 export function ClearExceptCamera() {
   scene.clear();
   scene.add(camera);
+  sceneUpdates = [];
 }

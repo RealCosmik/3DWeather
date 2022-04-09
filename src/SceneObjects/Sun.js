@@ -8,6 +8,5 @@ export async function Sun(scene) {
     sphere.scale.y = 0.05;
     sphere.scale.z = 0.05;
     sphere.position.set(-0.5, 6, -0.5);
-    scene.add(sphere);
     return sphere
 }
