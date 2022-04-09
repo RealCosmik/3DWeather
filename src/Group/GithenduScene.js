@@ -36,8 +36,7 @@ export async function Initalize(scene, camera, canvas) {
     textTemperature.position.set(-2.4, 1, 2);
     textTemperature.rotateY(-300);
 
-    groupSunCloud.add(await Cloud(scene), await Sun(scene));
-
+    /**
     //Build Windmill
 
     Windmill = new THREE.Object3D();
@@ -91,7 +90,7 @@ export async function Initalize(scene, camera, canvas) {
     var blade3 = blade.clone();
     blade3.rotation.y = Math.PI/3 * 4;
 
-    //Building rotating compnents
+    //Building rotating components
     rotatingComponents.add(turbineShaft);
     rotatingComponents.add(endCap);
     rotatingComponents.add(blade);
@@ -104,8 +103,11 @@ export async function Initalize(scene, camera, canvas) {
     Windmill.add(pole);
     Windmill.add(turbineHousing);
     Windmill.add(rotatingComponents);
+    **/
 
-    groupModels.add(await Floor(scene), await Room(scene), Windmill(scene));
+    groupSunCloud.add(await Sun(scene));
+
+    groupModels.add(await Floor(scene), await Room(scene));
 
     groupModels.scale.set(8, 8, 8);
     groupTexts.scale.set(8, 8, 8);
@@ -118,7 +120,7 @@ export async function Initalize(scene, camera, canvas) {
 
     const axesHelper = new THREE.AxesHelper( 5 );
     axesHelper.scale.set(10,10,10)
-    scene.add( axesHelper );
+    //scene.add( axesHelper );
 
     scene.add(groupModels, groupTexts, groupSunCloud);
     AddLightsToScene(scene);
@@ -164,7 +166,7 @@ function AddLightsToScene(scene) {
     const directionalLightCameraHelper = new THREE.CameraHelper(
         directionalLight.shadow.camera
     );
-    scene.add(directionalLightCameraHelper);
+    //scene.add(directionalLightCameraHelper);
 }
 
 function Update(deltaTime) {
