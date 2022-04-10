@@ -36,22 +36,30 @@ export async function Initalize(scene, camera, canvas) {
   textTemperature.position.set(-2.4, 1, 2);
   textTemperature.rotateY(-300);
 
-  groupSunCloud.add(await Cloud(scene), await Sun(scene));
 
-  groupModels.add(await Duck(scene), await Floor(scene), await Room(scene));
+
+
+
+  const newCloud = await Cloud.CreateCloud();
+  const sun = await Sun.CreateSun();
+  groupSunCloud.add(newCloud.cloudModel, sun.sunModel);
+  const newDuck = await Duck.CreateNewDuck();
+  const newFloor = await Floor.CreateFloor();
+  const newRoom = await Room.CreateRoom();
+  groupModels.add(newDuck.duckModel, newFloor.floorModel, newRoom.roomModel);
 
   groupModels.scale.set(8, 8, 8);
   groupTexts.scale.set(8, 8, 8);
   groupSunCloud.scale.set(8, 8, 8);
-  groupSunCloud.position.set(0,10.5,0)
+  groupSunCloud.position.set(0, 10.5, 0)
   camera.far = 5000;
   camera.position.set(135.7, 56.5, 51.7);
 
   groupTexts.add(textLocation, textRegion, textCondition, textTemperature);
 
-  const axesHelper = new THREE.AxesHelper( 5 );
-  axesHelper.scale.set(10,10,10)
-  scene.add( axesHelper );
+  const axesHelper = new THREE.AxesHelper(5);
+  axesHelper.scale.set(10, 10, 10)
+  scene.add(axesHelper);
 
   scene.add(groupModels, groupTexts, groupSunCloud);
   AddLightsToScene(scene);

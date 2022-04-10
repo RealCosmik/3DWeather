@@ -1,8 +1,14 @@
 import * as THREE from "three";
 export default class windmill {
-    rotatingComponents;
-    async Intialize(scene) {
-        var windmillGroup = new THREE.Group();
+    windmillGroup
+    #rotatingComponents
+    rotateWindmill(speed) {
+        this.#rotatingComponents.rotateY(speed);
+    }
+    // factory method to create a windmill. Returns a newWinmill class instance
+    static async CreateWindmill() {
+        const newWindmill = new windmill();
+        newWindmill.windmillGroup = new THREE.Group();
         var white = new THREE.MeshLambertMaterial({ color: "white" });
 
 
@@ -20,7 +26,7 @@ export default class windmill {
         );
         turbineHousing.position.set(0, 10, -0.7);
 
-        this.rotatingComponents = new THREE.Group();
+        newWindmill.#rotatingComponents = new THREE.Group();
 
         var turbineShaft = new THREE.Mesh(
             new THREE.CylinderGeometry(0.2, 0.2, 2, 32, 1), white
@@ -56,21 +62,18 @@ export default class windmill {
         var blade3 = blade.clone();
         blade3.rotation.y = Math.PI / 3 * 4;
 
-        this.rotatingComponents.add(turbineShaft);
-        this.rotatingComponents.add(endCap);
-        this.rotatingComponents.add(blade);
-        this.rotatingComponents.add(blade2);
-        this.rotatingComponents.add(blade3);
-        this.rotatingComponents.position.set(0, 10, 0.5);
-        this.rotatingComponents.rotation.x = Math.PI / 2;
+        newWindmill.#rotatingComponents.add(turbineShaft);
+        newWindmill.#rotatingComponents.add(endCap);
+        newWindmill.#rotatingComponents.add(blade);
+        newWindmill.#rotatingComponents.add(blade2);
+        newWindmill.#rotatingComponents.add(blade3);
+        newWindmill.#rotatingComponents.position.set(0, 10, 0.5);
+        newWindmill.#rotatingComponents.rotation.x = Math.PI / 2;
 
-        windmillGroup.add(base);
-        windmillGroup.add(pole);
-        windmillGroup.add(turbineHousing);
-        windmillGroup.add(this.rotatingComponents);
-        scene.add(windmillGroup);
-    }
-    rotateWindmill(speed) {
-        this.rotatingComponents.rotateY(speed);
+        newWindmill.windmillGroup.add(base);
+        newWindmill.windmillGroup.add(pole);
+        newWindmill.windmillGroup.add(turbineHousing);
+        newWindmill.windmillGroup.add(newWindmill.#rotatingComponents);
+        return newWindmill;
     }
 }

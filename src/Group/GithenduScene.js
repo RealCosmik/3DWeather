@@ -6,8 +6,8 @@ import { Cloud } from "../SceneObjects/Cloud"
 import { WeatherData } from "../WeatherAPI"
 let newWindmill;
 export async function Initalize(scene, camera, canvas) {
-    newWindmill = new windmill();
-    await newWindmill.Intialize(scene);
+    newWindmill = await windmill.CreateWindmill();
+    scene.add(newWindmill.windmillGroup);
     AddLightsToScene(scene);
     entry.RegisterOnSceneUpdate(Update);
 }

@@ -11,7 +11,7 @@ import { Text } from "../SceneObjects/Text.js";
 var deltaY = 0;
 var increase = true;
 var maxMovement = 1;
-var globes;
+var globe;
 var cloud;
 
 export async function Initalize(scene, camera, canvas) {
@@ -34,9 +34,9 @@ export async function Initalize(scene, camera, canvas) {
 
 
   //GLOBE
-  globes = await Globe(scene)
-  globes.position.set(35, 0, 0);
-  group.add(globes);
+  globe = await Globe.CreateGlobe();
+  globe.globeModel.position.set(35, 0, 0);
+  group.add(globe.globeModel);
 
 
 
@@ -53,11 +53,11 @@ export async function Initalize(scene, camera, canvas) {
 
 
   //Cloud
-  cloud = await Cloud(scene)
-  cloud.scale.set(1.5, 1.5, 1.5);
-  cloud.rotateZ(180);
-  cloud.position.set(45, 20, 0);
-  group.add(cloud);
+  cloud = await Cloud.CreateCloud();
+  cloud.cloudModel.scale.set(1.5, 1.5, 1.5);
+  cloud.cloudModel.rotateZ(180);
+  cloud.cloudModel.position.set(45, 20, 0);
+  group.add(cloud.cloudModel);
 
   //axes helper
   const axesHelper = new THREE.AxesHelper(5);
@@ -116,14 +116,17 @@ function AddLightsToScene(scene) {
 }
 
 function OnSceneUpdate(deltaTime) {
+  BounceCloud(cloud.cloudModel, deltaTime);
+  globe.globeModel.rotateZ(.004);
+}
+function BounceCloud(cloudModel, deltaTime) {
   deltaY += deltaTime;
   if (increase)
-    cloud.position.y += deltaTime * .75;
+    cloudModel.position.y += deltaTime * .75;
   else
-    cloud.position.y -= deltaTime * .75;
+    cloudModel.position.y -= deltaTime * .75;
   if (deltaY >= maxMovement) {
     increase = !increase;
     deltaY = 0;
   }
-  globes.rotateZ(.004);
 }
