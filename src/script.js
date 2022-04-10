@@ -16,14 +16,16 @@ let previousTime = 0;
 var sceneUpdates = [];
 var controls;
 var loadStatus = false;
-InitalizeAppData()
+InitalizeAppData();
 
 export async function LoadScene(zipcode) {
-  await WeatherHelper.fetchWeatherJSON(zipcode).then(SceneSelector).catch(onErrorRecieved)
+  await WeatherHelper.fetchWeatherJSON(zipcode)
+    .then(SceneSelector)
+    .catch(onErrorRecieved);
   return loadStatus;
 }
 function onErrorRecieved(reason) {
-  let errorData = reason.message.split('*');
+  let errorData = reason.message.split("*");
   let errorMessage = errorData[0];
   let errorCode = errorData[1];
   console.log(reason);
@@ -103,10 +105,8 @@ function InitalizeAppData() {
   controls.target.set(0, 0.75, 0);
   controls.enableDamping = true;
 
-
   RichScene.Initalize(scene, camera, canvas);
   RenderLoop();
-
 }
 
 async function SceneSelector(response) {
@@ -114,10 +114,10 @@ async function SceneSelector(response) {
     throw new Error(response.error.message + "*" + response.error.code);
   }
   ClearExceptCamera();
-  //await JustinScene.Initalize(scene, camera, canvas);
+  await JustinScene.Initalize(scene, camera, canvas);
   //await CloudScene.Initalize(scene, camera, canvas);
   //await MichaelScene.Initalize(scene, camera, canvas);
-  await GithenduScene.Initalize(scene, camera, canvas, response)
+  //await GithenduScene.Initalize(scene, camera, canvas, response)
 }
 
 function RenderLoop() {
@@ -128,8 +128,7 @@ function RenderLoop() {
   previousTime = elapsedTime;
   camera.updateProjectionMatrix();
   controls.update();
-  for (let i = 0; i < sceneUpdates.length; i++)
-    sceneUpdates[i](deltaTime);
+  for (let i = 0; i < sceneUpdates.length; i++) sceneUpdates[i](deltaTime);
 
   renderer.render(scene, camera);
   window.requestAnimationFrame(RenderLoop);
