@@ -109,10 +109,10 @@ function AddLightsToScene(scene) {
   const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2);
   scene.add(pointLightHelper);
 
-  const directionalLightCameraHelper = new THREE.CameraHelper(
-    directionalLight.shadow.camera
-  );
-  scene.add(directionalLightCameraHelper);
+  // const directionalLightCameraHelper = new THREE.CameraHelper(
+  //   directionalLight.shadow.camera
+  // );
+  // scene.add(directionalLightCameraHelper);
 }
 
 function OnSceneUpdate(deltaTime) {

@@ -26,6 +26,7 @@ function onErrorRecieved(reason) {
   let errorData = reason.message.split('*');
   let errorMessage = errorData[0];
   let errorCode = errorData[1];
+  console.log(reason);
   switch (errorCode) {
     case "1002":
       alert("Please come back later tech prblms");

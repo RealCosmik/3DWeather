@@ -1,14 +1,13 @@
 import * as entry from "../script";
 import * as THREE from "three";
 import { Vector3 } from "three";
-import { GetRotationObjects, Windmill } from "../SceneObjects/Windmill"
+import windmill from "../SceneObjects/Windmill"
 import { Cloud } from "../SceneObjects/Cloud"
 import { WeatherData } from "../WeatherAPI"
-let rotationGroup;
+let newWindmill;
 export async function Initalize(scene, camera, canvas) {
-    const newWindmill = await Windmill(scene);
-    rotationGroup = newWindmill.children[3];
-    scene.add(newWindmill);
+    newWindmill = new windmill();
+    await newWindmill.Intialize(scene);
     AddLightsToScene(scene);
     entry.RegisterOnSceneUpdate(Update);
 }
@@ -39,5 +38,5 @@ function AddLightsToScene(scene) {
 
 function Update(deltaTime) {
     if (WeatherData.current.wind_mph)
-        rotationGroup.rotateY(deltaTime * WeatherData.current.wind_mph)
+        newWindmill.rotateWindmill(WeatherData.current.wind_mph * deltaTime);
 }
