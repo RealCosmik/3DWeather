@@ -7,7 +7,7 @@ import * as entry from "../script";
 import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
 import { Sun } from "../SceneObjects/Sun.js";
-import rain from "../SceneObjects/Rain";
+import Rain from "../SceneObjects/Rain";
 let newRain;
 const clock = new THREE.Clock();
 
@@ -66,9 +66,7 @@ export async function Initalize(scene, camera, canvas) {
 
   scene.add(groupModels, groupTexts, groupSunCloud);
 
-  newRain = new rain();
-  await newRain.Intialize();
-
+  newRain = await Rain.CreateRain();
   scene.add(newRain.rainParticles);
   AddLightsToScene(scene);
   entry.RegisterOnSceneUpdate(Update);

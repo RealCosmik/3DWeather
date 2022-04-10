@@ -1,8 +1,10 @@
 import * as THREE from "three";
-export default class rain {
+export default class Rain {
   rainParticles;
   rainCount;
-  async Intialize() {
+
+  static async CreateRain() {
+    const newRain = new Rain();
     this.rainGeo = new THREE.CylinderBufferGeometry();
     this.rainCount = 20000;
 
@@ -20,14 +22,15 @@ export default class rain {
       size: 0.25,
       transparent: true,
     });
-    this.rainParticles = new THREE.Points(this.rainGeo, rainMaterial);
-    this.rainParticles.velocity = new THREE.Vector3(
+    newRain.rainParticles = new THREE.Points(this.rainGeo, rainMaterial);
+    newRain.rainParticles.velocity = new THREE.Vector3(
       0, // x
       -Math.random(), // y: random vel
       0
     ); // z
-    this.rainParticles.scale.set(40, 40, 40);
-    this.rainParticles.position.set(0, 20, 0);
+    newRain.rainParticles.scale.set(40, 40, 40);
+    newRain.rainParticles.position.set(0, 20, 0);
+    return newRain;
   }
   animateRain(speed) {
     this.rainParticles.rotation.y += speed;
