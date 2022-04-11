@@ -3,12 +3,15 @@ import { Floor } from "../SceneObjects/Floor.js";
 import { Text } from "../SceneObjects/Text.js";
 import { Cloud } from "../SceneObjects/Cloud.js";
 import { Room } from "../SceneObjects/Room.js";
+import windmill from "../SceneObjects/Windmill";
 import * as entry from "../script";
 import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
 import { Sun } from "../SceneObjects/Sun.js";
 import Rain from "../SceneObjects/Rain";
+import { WeatherData } from "../WeatherAPI";
 let newRain;
+let newWindmill;
 const clock = new THREE.Clock();
 
 export async function Initalize(scene, camera, canvas) {
@@ -41,36 +44,36 @@ export async function Initalize(scene, camera, canvas) {
   textTemperature.position.set(-2.4, 1, 2);
   textTemperature.rotateY(-300);
 
-
-
-
-
   const newCloud = await Cloud.CreateCloud();
   const sun = await Sun.CreateSun();
   groupSunCloud.add(newCloud.cloudModel, sun.sunModel);
   const newDuck = await Duck.CreateNewDuck();
   const newFloor = await Floor.CreateFloor();
   const newRoom = await Room.CreateRoom();
+  newWindmill = await windmill.CreateWindmill();
+  newWindmill.windmillGroup.position.set(0, 10.5, 0);
+  newWindmill.windmillGroup.rotateY(45);
+  scene.add(newWindmill.windmillGroup);
   groupModels.add(newDuck.duckModel, newFloor.floorModel, newRoom.roomModel);
 
   groupModels.scale.set(8, 8, 8);
   groupTexts.scale.set(8, 8, 8);
   groupSunCloud.scale.set(8, 8, 8);
-  groupSunCloud.position.set(0, 10.5, 0)
+  groupSunCloud.position.set(0, 10.5, 0);
   camera.far = 5000;
   camera.position.set(135.7, 56.5, 51.7);
 
   groupTexts.add(textLocation, textRegion, textCondition, textTemperature);
 
   const axesHelper = new THREE.AxesHelper(5);
-  axesHelper.scale.set(10, 10, 10)
+  axesHelper.scale.set(10, 10, 10);
   scene.add(axesHelper);
 
   scene.add(groupModels, groupTexts, groupSunCloud);
 
   newRain = await Rain.CreateRain();
   scene.add(newRain.rainParticles);
-  newRain.rainParticles.position.set(0, 50, 0)
+  newRain.rainParticles.position.set(0, 50, 0);
   AddLightsToScene(scene);
   entry.RegisterOnSceneUpdate(Update);
 }
@@ -130,4 +133,6 @@ function PlayAudio() {
 
 function Update(deltaTime) {
   newRain.animateRain(0.01);
+  if (WeatherData.current.wind_mph)
+    newWindmill.rotateWindmill(WeatherData.current.wind_mph * deltaTime);
 }
