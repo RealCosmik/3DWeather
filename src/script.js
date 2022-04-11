@@ -11,7 +11,7 @@ import * as Onsubmit from "./OnSubmit";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 const clock = new THREE.Clock();
-var scene, camera, canvas, renderer;
+var scene, camera, canvas, renderer, audio;
 let previousTime = 0;
 var sceneUpdates = [];
 var controls;
@@ -105,6 +105,8 @@ function InitalizeAppData() {
   controls.target.set(0, 0.75, 0);
   controls.enableDamping = true;
 
+  audio = new Audio();
+
   RichScene.Initalize(scene, camera, canvas);
   RenderLoop();
 }
@@ -121,13 +123,14 @@ async function SceneSelector(response) {
       console.log(key);
     }
   }
+  audio.pause();
   ClearExceptCamera();
   switch (currentConditions) {
     case "Sun":
       await JustinScene.Initalize(scene, camera, canvas);
       break;
     case "LightCloud":
-      await GithenduScene.Initalize(scene, camera, canvas, response);
+      await JustinScene.Initalize(scene, camera, canvas, response);
       break;
     case "DarkCloud":
       await GithenduScene.Initalize(scene, camera, canvas);
@@ -171,4 +174,14 @@ export function ClearExceptCamera() {
   scene.clear();
   scene.add(camera);
   sceneUpdates = [];
+}
+export function PlayAudio(filePath) {
+  // "/sounds/birds.mp3"
+  // "/sounds/snow.mp3"
+  // "/sounds/rain.mp3"
+  audio.src = filePath;
+  console.log(audio);
+  audio.play();
+  audio.volume = 0.1;
+  audio.loop = true;
 }
