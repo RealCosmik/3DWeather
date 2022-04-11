@@ -68,6 +68,7 @@ export async function Initalize(scene, camera, canvas) {
 
   newRain = await Rain.CreateRain();
   scene.add(newRain.rainParticles);
+  newRain.rainParticles.position.set(0, 50, 0)
   AddLightsToScene(scene);
   entry.RegisterOnSceneUpdate(Update);
 }

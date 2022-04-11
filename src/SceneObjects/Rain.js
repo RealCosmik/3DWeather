@@ -1,38 +1,48 @@
 import * as THREE from "three";
+import { Matrix4 } from "three";
+import particleVertex from "../Shaders/Particles/vertex.glsl";
+import particleFragment from "../Shaders/Particles/fragment.glsl";
 export default class Rain {
   rainParticles;
   rainCount;
-
+  rainGeo;
+  bufferAttribute;
   static async CreateRain() {
     const newRain = new Rain();
-    this.rainGeo = new THREE.CylinderBufferGeometry();
-    this.rainCount = 20000;
-
-    const posArray = new Float32Array(this.rainCount * 3);
-    for (let i = 0; i < this.rainCount * 3; i++) {
-      posArray[i] = Math.random() - 0.5;
-    }
-    this.rainGeo.setAttribute(
-      "position",
-      new THREE.BufferAttribute(posArray, 3)
-    );
-
-    var rainMaterial = new THREE.PointsMaterial({
-      color: 0xaaaaaa,
-      size: 0.25,
-      transparent: true,
-    });
-    newRain.rainParticles = new THREE.Points(this.rainGeo, rainMaterial);
-    newRain.rainParticles.velocity = new THREE.Vector3(
-      0, // x
-      -Math.random(), // y: random vel
-      0
-    ); // z
-    newRain.rainParticles.scale.set(40, 40, 40);
+    newRain.rainGeo = new THREE.BufferGeometry();
+    newRain.rainCount = 2000;
+    const particleBuffer = new Float32Array(newRain.rainCount * 3);
+    newRain.bufferAttribute = new THREE.BufferAttribute(particleBuffer, 3);
+    newRain.rainGeo.setAttribute("position", newRain.bufferAttribute);
+    var rainMaterial = this.GetParticleMaterial();
+    newRain.rainParticles = new THREE.Points(newRain.rainGeo, rainMaterial);
+    newRain.rainParticles.scale.set(10, 40, 1);
     newRain.rainParticles.position.set(0, 20, 0);
+
+    const textureLoader = new THREE.TextureLoader()
+    const particleTexture = textureLoader.load("/textures/RainParticle.png")
+    // rainMaterial.transparent = true
+    /// rainMaterial.map = particleTexture
+    // rainMaterial.color = new THREE.Color('#ff88cc')
+    console.log(newRain.rainGeo.attributes);
     return newRain;
   }
   animateRain(speed) {
-    this.rainParticles.rotation.y += speed;
+    for (let i = 0; i < this.rainCount; i++) {
+      this.bufferAttribute.array[i] = Math.random() * .8 - 0.5;
+    }
+    // const pos = new Matrix4();
+    // pos.setPosition(0, 0, 0);
+    // this.rainGeo.applyMatrix4(pos);
+    //this.bufferAttribute.needsUpdate = true;
+    // this.rainParticles.rotation.y += speed;
+  }
+  static GetParticleMaterial() {
+    const particleMaterial = new THREE.ShaderMaterial();
+    particleMaterial.depthWrite = false;
+    particleMaterial.blending = THREE.AdditiveBlending;
+    particleMaterial.fragmentShader = particleFragment;
+    particleMaterial.vertexShader = particleVertex;
+    return particleMaterial;
   }
 }

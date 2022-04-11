@@ -17,13 +17,14 @@ var sceneUpdates = [];
 var controls;
 var loadStatus = false;
 InitalizeAppData();
-
+WeatherHelper.fetchWeatherJSON("02120").then(SceneSelector).catch(onErrorRecieved);
 export async function LoadScene(zipcode) {
   await WeatherHelper.fetchWeatherJSON(zipcode)
     .then(SceneSelector)
     .catch(onErrorRecieved);
   return loadStatus;
 }
+
 function onErrorRecieved(reason) {
   let errorData = reason.message.split("*");
   let errorMessage = errorData[0];
@@ -105,7 +106,7 @@ function InitalizeAppData() {
   controls.target.set(0, 0.75, 0);
   controls.enableDamping = true;
 
-  RichScene.Initalize(scene, camera, canvas);
+  //RichScene.Initalize(scene, camera, canvas);
   RenderLoop();
 }
 
