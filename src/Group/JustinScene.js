@@ -8,10 +8,13 @@ import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
 import { Sun } from "../SceneObjects/Sun.js";
 import rain from "../SceneObjects/Rain";
+
 let newRain;
 const clock = new THREE.Clock();
 
 export async function Initalize(scene, camera, canvas) {
+  PlayAudio();
+
   scene.background = new THREE.Color(0x53789e);
   var groupModels = new THREE.Group();
   var groupTexts = new THREE.Group();
@@ -106,6 +109,17 @@ function AddLightsToScene(scene) {
     directionalLight.shadow.camera
   );
   scene.add(directionalLightCameraHelper);
+}
+
+function PlayAudio() {
+  var audio = new Audio("/sounds/rain.mp3");
+  //var audio = new Audio("/sounds/birds.mp3");
+  //var audio = new Audio("/sounds/snow.mp3");
+
+  console.log(audio);
+  audio.play();
+  audio.volume = 0.1;
+  audio.loop = true;
 }
 
 function Update(deltaTime) {
