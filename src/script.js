@@ -32,7 +32,7 @@ function onErrorRecieved(reason) {
   console.log(reason);
   switch (errorCode) {
     case "1002":
-      alert("Please come back later tech prblms");
+      alert("Please come back later tech problems");
       break;
     case "1003":
       alert("enter valid location");
@@ -44,7 +44,7 @@ function onErrorRecieved(reason) {
       alert(errorMessage);
       break;
     case "2006":
-      alert("Please come back later tech prblms");
+      alert("Please come back later tech problems");
       break;
     case "2007":
       alert("we are poor and cant use api anymore sorry");
@@ -53,7 +53,7 @@ function onErrorRecieved(reason) {
       alert("api key broke");
       break;
     default:
-      alert("unkown error try again!");
+      alert("unknown error try again!");
       break;
   }
 }
