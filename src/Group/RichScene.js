@@ -14,6 +14,9 @@ var maxMovement = 1;
 var globe;
 var cloud;
 
+//Spotlight has to be global to update it's target location
+const spotLight = new THREE.SpotLight(0xffffff, 10, 75, .25, 0, 1);
+
 export async function Initalize(scene, camera, canvas) {
   //entry.ClearExceptCamera();
 
@@ -23,20 +26,13 @@ export async function Initalize(scene, camera, canvas) {
   const group = new THREE.Group();
 
 
-  //---THE LINES BELOW ARE GOING TO BE DELETED IN NEXT PUSH
-  /*
-  //Test Sphere object (only needed for debugging)
-  var sphere = new THREE.SphereGeometry(15,32,16);
-
-  //points for point material
-  var points = new THREE.PointsMaterial({size: .01, color: "blue"})
-  */
-
-
+  
   //GLOBE
   globe = await Globe.CreateGlobe();
   globe.globeModel.position.set(35, 0, 0);
   group.add(globe.globeModel);
+
+  console.log(globe.globeModel);
 
 
 
@@ -55,69 +51,53 @@ export async function Initalize(scene, camera, canvas) {
   //Cloud
   cloud = await Cloud.CreateCloud();
   cloud.cloudModel.scale.set(1.5, 1.5, 1.5);
-  cloud.cloudModel.rotateZ(180);
-  cloud.cloudModel.position.set(45, 20, 0);
-  group.add(cloud.cloudModel);
+  globe.globeModel.add(cloud.cloudModel);
+  cloud.cloudModel.position.x = 45;
+  cloud.cloudModel.position.y = 27;
+  cloud.cloudModel.rotateX(1);
+
+
 
   //axes helper
-  const axesHelper = new THREE.AxesHelper(5);
-  axesHelper.scale.set(10, 10, 10)
-  scene.add(axesHelper);
+  // const axesHelper = new THREE.AxesHelper(5);
+  // axesHelper.scale.set(10, 10, 10)
+  // scene.add(axesHelper);
+
+
 
   //adding the group to the scene
   scene.add(group);
+
+
 
   AddLightsToScene(scene);
   entry.RegisterOnSceneUpdate(OnSceneUpdate);
 }
 
 
-
 function AddLightsToScene(scene) {
-  const hemisphereLight = new THREE.HemisphereLight(0xadd8e6, 0xffffff, 0.3);
+
+  //Hemisphere light is really to make the cloud look good
+  const hemisphereLight = new THREE.HemisphereLight(0xadd8e6, 0xffffff, 1);
   scene.add(hemisphereLight);
+  
+  //Spotlight points right at the globe
+  spotLight.position.set(10, 0, 50);
+  //Pointing the spotlight right at the center of the globe
+  spotLight.target.position.set(35,0,0);
+  //Updating the coordinate matrix for the spotlight so it points right at the globe
+  spotLight.target.updateMatrixWorld();
+  scene.add(spotLight);
 
-  const pointLight = new THREE.PointLight(0xff9000, 0.4, 10, 2);
-  scene.add(pointLight);
-
-  // const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
-  // scene.add(ambientLight);
-
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-  directionalLight.castShadow = true;
-  directionalLight.shadow.mapSize.set(1024, 1024);
-  directionalLight.shadow.camera.far = 285;
-  directionalLight.shadow.camera.left = 0;
-  directionalLight.shadow.camera.top = 0;
-  directionalLight.shadow.camera.right = 0;
-  directionalLight.shadow.camera.bottom = 0;
-  directionalLight.position.set(-5, 5, 0);
-  scene.add(directionalLight);
-
-  const hemisphereLightHelper = new THREE.HemisphereLightHelper(
-    hemisphereLight,
-    0.2
-  );
-  scene.add(hemisphereLightHelper);
-
-  const directionalLightHelper = new THREE.DirectionalLightHelper(
-    directionalLight,
-    0.2
-  );
-  scene.add(directionalLightHelper);
-
-  const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2);
-  scene.add(pointLightHelper);
-
-  // const directionalLightCameraHelper = new THREE.CameraHelper(
-  //   directionalLight.shadow.camera
-  // );
-  // scene.add(directionalLightCameraHelper);
+  const spotLightHelper = new THREE.SpotLightHelper(spotLight, 0.2);
+  //scene.add(spotLightHelper);
+  
 }
 
 function OnSceneUpdate(deltaTime) {
-  BounceCloud(cloud.cloudModel, deltaTime);
-  globe.globeModel.rotateZ(.004);
+  //BounceCloud(cloud.cloudModel, deltaTime);
+  //cloud.cloudModel.rotateZ(.002);
+  globe.globeModel.rotateY(-.004);
 }
 function BounceCloud(cloudModel, deltaTime) {
   deltaY += deltaTime;
