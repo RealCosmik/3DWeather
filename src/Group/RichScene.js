@@ -39,7 +39,8 @@ export async function Initalize(scene, camera, canvas) {
   //WELCOME TEXT
   var welcomeText = await Text(
     scene,
-    "Welcome to 3D Weather! \n Enter a location above."
+    "Welcome to 3D Weather! \n Enter a location above.",
+    false
   );
   //Adjust the scale of JUST the text
   welcomeText.scale.set(5, 5, 5);

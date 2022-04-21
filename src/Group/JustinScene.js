@@ -21,24 +21,25 @@ export async function Initalize(scene, camera, canvas) {
   var groupTexts = new THREE.Group();
   var groupSunCloud = new THREE.Group();
 
-  var textLocation = await Text(scene, WeatherHelper.WeatherData.location.name);
+  var textLocation = await Text(scene, WeatherHelper.WeatherData.location.name, false);
   textLocation.position.set(-2.4, 4, 2);
   textLocation.rotateY(-300);
 
-  var textRegion = await Text(scene, WeatherHelper.WeatherData.location.region);
-  textRegion.position.set(-2.4, 3, 2);
+  var textRegion = await Text(scene, WeatherHelper.WeatherData.location.region, true);
+  textRegion.position.set(-2.4, 3.25, 2);
   textRegion.rotateY(-300);
 
   var textCondition = await Text(
     scene,
-    WeatherHelper.WeatherData.current.condition.text
+    WeatherHelper.WeatherData.current.condition.text, false
   );
-  textCondition.position.set(-2.4, 2, 2);
+  textCondition.position.set(-2.4, 1.75, 2);
   textCondition.rotateY(-300);
 
   var textTemperature = await Text(
     scene,
-    WeatherHelper.WeatherData.current.temp_f + " °F"
+    WeatherHelper.WeatherData.current.temp_f + " °F",
+    false
   );
   textTemperature.position.set(-2.4, 1, 2);
   textTemperature.rotateY(-300);
