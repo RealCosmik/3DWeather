@@ -128,22 +128,22 @@ async function SceneSelector(response) {
   ClearExceptCamera();
   switch (currentConditions) {
     case "Sun":
-      await RainScene.Initalize(scene, camera, canvas);
+      await JustinScene.Initalize(scene, camera, canvas);
       break;
     case "LightCloud":
-      await RainScene.Initalize(scene, camera, canvas, response);
+      await JustinScene.Initalize(scene, camera, canvas, response);
       break;
     case "DarkCloud":
-      await RainScene.Initalize(scene, camera, canvas);
+      await GithenduScene.Initalize(scene, camera, canvas);
       break;
     case "Rain":
-      await RainScene.Initalize(scene, camera, canvas);
+      await MichaelScene.Initalize(scene, camera, canvas);
       break;
     case "Snow":
-      await RainScene.Initalize(scene, camera, canvas);
+      await JustinScene.Initalize(scene, camera, canvas);
       break;
     case "Sleet":
-      await RainScene.Initalize(scene, camera, canvas);
+      await JustinScene.Initalize(scene, camera, canvas);
       break;
     default:
       await RichScene.Initalize(scene, camera, canvas);

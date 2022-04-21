@@ -2,6 +2,12 @@ import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 
 export class Globe {
 
+
+  /*
+      Globe Model credited to Alan Ziimmerman
+      Sourced from https://sketchfab.com/3d-models/earth-8a3f6e66955e41d48762d75725d3ab52
+  */
+
   globeModel
   static async CreateGlobe() {
     const newGlobe = new Globe();
@@ -10,11 +16,6 @@ export class Globe {
       newGlobe.globeModel = fbx.children[0]
       newGlobe.globeModel.scale.set(0.3, 0.3, 0.3);
       newGlobe.globeModel.position.set(0, 4.5, 0);
-
-      // This is used for limiting the number of points rendered if you want to
-      // make a patricle model. Renders from 0 to (Max Number of points). Use
-      // Infinity as the upper bound to render the whole model
-      //newGlobe.globeModel.geometry.setDrawRange(0, 2000000)
     });
     return newGlobe;
   }
