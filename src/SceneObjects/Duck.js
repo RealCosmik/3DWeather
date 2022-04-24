@@ -10,12 +10,10 @@ export class Duck {
 
     const gltfLoader = new GLTFLoader();
     gltfLoader.setDRACOLoader(dracoLoader);
-    await gltfLoader.loadAsync("/models/GLTF/Duck/Duck.gltf").then
-      ((gltf) => {
-        gltf.scene.scale.set(1, 1, 1);
-        newDuck.duckModel = gltf.scene;
-      });
+    await gltfLoader.loadAsync("/models/GLTF/Duck/Duck.gltf").then((gltf) => {
+      gltf.scene.scale.set(1, 1, 1);
+      newDuck.duckModel = gltf.scene;
+    });
     return newDuck;
   }
-
 }

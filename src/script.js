@@ -6,25 +6,25 @@ import * as MichaelScene from "./Group/MichaelScene";
 import * as GithenduScene from "./Group/GithenduScene";
 import * as RichScene from "./Group/RichScene";
 import * as CloudScene from "./Group/CloudScene";
+import * as RainScene from "./Group/RainScene";
 import * as WeatherHelper from "./WeatherAPI";
 import * as Onsubmit from "./OnSubmit";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 const clock = new THREE.Clock();
-var scene, camera, canvas, renderer;
+var scene, camera, canvas, renderer, audio;
 let previousTime = 0;
 var sceneUpdates = [];
 var controls;
 var loadStatus = false;
 InitalizeAppData();
-WeatherHelper.fetchWeatherJSON("02120").then(SceneSelector).catch(onErrorRecieved);
+
 export async function LoadScene(zipcode) {
   await WeatherHelper.fetchWeatherJSON(zipcode)
     .then(SceneSelector)
     .catch(onErrorRecieved);
   return loadStatus;
 }
-
 function onErrorRecieved(reason) {
   let errorData = reason.message.split("*");
   let errorMessage = errorData[0];
@@ -32,7 +32,7 @@ function onErrorRecieved(reason) {
   console.log(reason);
   switch (errorCode) {
     case "1002":
-      alert("Please come back later tech prblms");
+      alert("Please come back later tech problems");
       break;
     case "1003":
       alert("enter valid location");
@@ -44,7 +44,7 @@ function onErrorRecieved(reason) {
       alert(errorMessage);
       break;
     case "2006":
-      alert("Please come back later tech prblms");
+      alert("Please come back later tech problems");
       break;
     case "2007":
       alert("we are poor and cant use api anymore sorry");
@@ -53,7 +53,7 @@ function onErrorRecieved(reason) {
       alert("api key broke");
       break;
     default:
-      alert("unkown error try again!");
+      alert("unknown error try again!");
       break;
   }
 }
@@ -106,7 +106,9 @@ function InitalizeAppData() {
   controls.target.set(0, 0.75, 0);
   controls.enableDamping = true;
 
-  //RichScene.Initalize(scene, camera, canvas);
+  audio = new Audio();
+
+  RichScene.Initalize(scene, camera, canvas);
   RenderLoop();
 }
 
@@ -114,11 +116,42 @@ async function SceneSelector(response) {
   if (response.error) {
     throw new Error(response.error.message + "*" + response.error.code);
   }
+  var conditions = require("./conditions.json");
+  var currentConditions;
+  for (const [key, value] of Object.entries(conditions)) {
+    if (value.includes(WeatherHelper.WeatherData.current.condition.code)) {
+      currentConditions = key;
+      console.log(key);
+    }
+  }
+  audio.pause();
   ClearExceptCamera();
-  //await JustinScene.Initalize(scene, camera, canvas);
-  // await CloudScene.Initalize(scene, camera, canvas);
-  await MichaelScene.Initalize(scene, camera, canvas);
-  //await GithenduScene.Initalize(scene, camera, canvas, response)
+  switch (currentConditions) {
+    case "Sun":
+      await RainScene.Initalize(scene, camera, canvas);
+      break;
+    case "LightCloud":
+      await RainScene.Initalize(scene, camera, canvas, response);
+      break;
+    case "DarkCloud":
+      await RainScene.Initalize(scene, camera, canvas);
+      break;
+    case "Rain":
+      await RainScene.Initalize(scene, camera, canvas);
+      break;
+    case "Snow":
+      await RainScene.Initalize(scene, camera, canvas);
+      break;
+    case "Sleet":
+      await RainScene.Initalize(scene, camera, canvas);
+      break;
+    default:
+      await RichScene.Initalize(scene, camera, canvas);
+      break;
+  }
+
+  //await CloudScene.Initalize(scene, camera, canvas);
+  //await MichaelScene.Initalize(scene, camera, canvas);
 }
 
 function RenderLoop() {
@@ -142,4 +175,14 @@ export function ClearExceptCamera() {
   scene.clear();
   scene.add(camera);
   sceneUpdates = [];
+}
+export function PlayAudio(filePath) {
+  // "/sounds/birds.mp3"
+  // "/sounds/snow.mp3"
+  // "/sounds/rain.mp3"
+  audio.src = filePath;
+  console.log(audio);
+  audio.play();
+  audio.volume = 0.1;
+  audio.loop = true;
 }
