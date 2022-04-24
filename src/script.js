@@ -115,9 +115,9 @@ async function SceneSelector(response) {
     throw new Error(response.error.message + "*" + response.error.code);
   }
   ClearExceptCamera();
-  await JustinScene.Initalize(scene, camera, canvas);
-  //await CloudScene.Initalize(scene, camera, canvas);
-  //await MichaelScene.Initalize(scene, camera, canvas);
+  //await JustinScene.Initalize(scene, camera, canvas);
+  // await CloudScene.Initalize(scene, camera, canvas);
+  await MichaelScene.Initalize(scene, camera, canvas);
   //await GithenduScene.Initalize(scene, camera, canvas, response)
 }
 

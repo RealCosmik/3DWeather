@@ -10,7 +10,7 @@ const maxMovement = 1;
 export async function Initalize(scene, camera, canvas) {
     //  entry.ClearExceptCamera();
     entry.RegisterOnSceneUpdate(OnSceneUpdate);
-    sunModel = await Sun(scene);
+    sunModel = (await Sun.CreateSun()).sunModel;
 }
 function AddLightsToScene(scene) {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);

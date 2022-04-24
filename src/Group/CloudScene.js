@@ -45,17 +45,20 @@ export async function Initalize(scene, camera, canvas) {
   textTemperature.position.set(-2.4, 1, 2);
   textTemperature.rotateY(-300);
 
-  groupModels.add(await Duck(scene), await Floor(scene), await Room(scene));
+  const newDuck = await Duck.CreateNewDuck();
+  const newFloor = await Floor.CreateFloor();
+  const newRoom = await Room.CreateRoom();
+  groupModels.add(newDuck.duckModel, newFloor.floorModel, newRoom.roomModel);
 
   groupModels.scale.set(8, 8, 8);
   groupTexts.scale.set(8, 8, 8);
 
   //Creating 5 clouds
-  cloud1 = await Cloud(scene)
-  cloud2 = await Cloud(scene)
-  cloud3 = await Cloud(scene)
-  cloud4 = await Cloud(scene)
-  cloud5 = await Cloud(scene)
+  cloud1 = await Cloud.CreateCloud();
+  cloud2 = await Cloud.CreateCloud();
+  cloud3 = await Cloud.CreateCloud();
+  cloud4 = await Cloud.CreateCloud();
+  cloud5 = await Cloud.CreateCloud();
 
 
   /*
@@ -65,28 +68,28 @@ export async function Initalize(scene, camera, canvas) {
     -grouping of the clouds is below
   */
   //Cloud 1
-  cloud1.scale.set(1, 1, 1);
-  cloud1.position.set(0,0,0);
+  cloud1.cloudModel.scale.set(1, 1, 1);
+  cloud1.cloudModel.position.set(0, 0, 0);
 
   //Cloud 2
-  cloud2.scale.set(1, 1, 1);
-  cloud2.position.set(5,0,6);
+  cloud2.cloudModel.scale.set(1, 1, 1);
+  cloud2.cloudModel.position.set(5, 0, 6);
 
   //Cloud 3
-  cloud3.scale.set(1.5, 1.5, 1.8);
-  cloud3.position.set(-5,5,0);
+  cloud3.cloudModel.scale.set(1.5, 1.5, 1.8);
+  cloud3.cloudModel.position.set(-5, 5, 0);
 
   //Cloud 4
-  cloud4.scale.set(1.2, 1.2, 1.2);
-  cloud4.position.set(4.5,-2.7,9);
+  cloud4.cloudModel.scale.set(1.2, 1.2, 1.2);
+  cloud4.cloudModel.position.set(4.5, -2.7, 9);
 
   //Cloud 5
-  cloud5.scale.set(1, 1, 1);
-  cloud5.position.set(-2,0,5);
+  cloud5.cloudModel.scale.set(1, 1, 1);
+  cloud5.cloudModel.position.set(-2, 0, 5);
 
   //Grouping of clouds for easy movement and manipulation of all of them
-  groupClouds.add(cloud1, cloud2, cloud3, cloud4, cloud5)
-  
+  groupClouds.add(cloud1.cloudModel, cloud2.cloudModel, cloud3.cloudModel, cloud4.cloudModel, cloud5.cloudModel)
+
   //Set position of all the coulds
   groupClouds.position.set(0, 42, 0)
 
@@ -98,9 +101,9 @@ export async function Initalize(scene, camera, canvas) {
 
   groupTexts.add(textLocation, textRegion, textCondition, textTemperature);
 
-  const axesHelper = new THREE.AxesHelper( 5 );
-  axesHelper.scale.set(10,10,10)
-  scene.add( axesHelper );
+  const axesHelper = new THREE.AxesHelper(5);
+  axesHelper.scale.set(10, 10, 10)
+  scene.add(axesHelper);
 
   //scene.add(groupModels, groupTexts, groupSunCloud);
   scene.add(groupModels, groupTexts);
@@ -116,8 +119,8 @@ function AddLightsToScene(scene) {
   const pointLight = new THREE.PointLight(0xff9000, 0.4, 10, 2);
   scene.add(pointLight);
 
-//   const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
-//   scene.add(ambientLight);
+  //   const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+  //   scene.add(ambientLight);
 
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
   directionalLight.castShadow = true;
@@ -155,19 +158,19 @@ function AddLightsToScene(scene) {
 function OnSceneUpdate(deltaTime) {
   deltaY += deltaTime;
   if (increase)
-      cloud1.position.y += deltaTime,
-      cloud2.position.y -= deltaTime,
-      cloud3.position.y += deltaTime,
-      cloud4.position.y -= deltaTime,
-      cloud5.position.y += deltaTime;
+    cloud1.cloudModel.position.y += deltaTime,
+      cloud2.cloudModel.position.y -= deltaTime,
+      cloud3.cloudModel.position.y += deltaTime,
+      cloud4.cloudModel.position.y -= deltaTime,
+      cloud5.cloudModel.position.y += deltaTime;
   else
-      cloud1.position.y -= deltaTime,
-      cloud2.position.y += deltaTime,
-      cloud3.position.y -= deltaTime,
-      cloud4.position.y += deltaTime,
-      cloud5.position.y -= deltaTime;
+    cloud1.cloudModel.position.y -= deltaTime,
+      cloud2.cloudModel.position.y += deltaTime,
+      cloud3.cloudModel.position.y -= deltaTime,
+      cloud4.cloudModel.position.y += deltaTime,
+      cloud5.cloudModel.position.y -= deltaTime;
   if (deltaY >= maxMovement) {
-      increase = !increase;
-      deltaY = 0;
+    increase = !increase;
+    deltaY = 0;
   }
 }
