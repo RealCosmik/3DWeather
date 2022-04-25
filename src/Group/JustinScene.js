@@ -57,7 +57,7 @@ export async function Initalize(scene, camera, canvas) {
 
   const newCloud = await Cloud.CreateCloud();
   const sun = await Sun.CreateSun();
-  groupSunCloud.add(newCloud.cloudModel, sun.sunModel);
+  groupSunCloud.add(newCloud.cloudModel);
   //const newDuck = await Duck.CreateNewDuck();
   const newRoom = await Room.CreateRoom();
   newWindmill = await windmill.CreateWindmill();

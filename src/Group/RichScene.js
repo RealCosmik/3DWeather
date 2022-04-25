@@ -28,9 +28,9 @@ export async function Initalize(scene, camera, canvas) {
 
 
   //GLOBE
-  // globe = await Globe.CreateGlobe();
-  // globe.globeModel.position.set(35, 0, 0);
-  // group.add(globe.globeModel);
+  globe = await Globe.CreateGlobe();
+  globe.globeModel.position.set(35, 0, 0);
+  group.add(globe.globeModel);
 
   console.log(globe.globeModel);
 
