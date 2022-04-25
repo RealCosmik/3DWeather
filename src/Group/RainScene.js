@@ -7,10 +7,9 @@ import windmill from "../SceneObjects/Windmill";
 import * as entry from "../script";
 import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
-import {Sun} from "../SceneObjects/Sun.js";
 import Rain from "../SceneObjects/Rain";
 import {WeatherData} from "../WeatherAPI";
-import {Camera, Vector2} from "three";
+import {Camera} from "three";
 
 let newRain = new Rain("Blue");
 let newWindmill;

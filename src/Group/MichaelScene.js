@@ -8,6 +8,7 @@ var num = 0;
 var sunModel;
 const maxMovement = 1;
 
+// noinspection JSUnusedGlobalSymbols
 export async function Initalize(scene, camera, canvas) {
     //  entry.ClearExceptCamera();
     entry.RegisterOnSceneUpdate(OnSceneUpdate);

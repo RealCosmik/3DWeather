@@ -9,9 +9,8 @@ import {Sun} from "../SceneObjects/Sun.js";
 import {WeatherData} from "../WeatherAPI";
 import {Grass} from "../SceneObjects/Grass.js";
 // hello
-let newRain;
 let newWindmill;
-const clock = new THREE.Clock();
+new THREE.Clock();
 var grass = new Grass();
 
 export async function Initalize(scene, camera, canvas) {
@@ -55,7 +54,7 @@ export async function Initalize(scene, camera, canvas) {
 
     const newCloud = await Cloud.CreateCloud();
     const sun = await Sun.CreateSun();
-    groupSunCloud.add(newCloud.cloudModel);
+    groupSunCloud.add(newCloud.cloudModel, sun.sunModel);
     //const newDuck = await Duck.CreateNewDuck();
     const newRoom = await Room.CreateRoom();
     newWindmill = await windmill.CreateWindmill();

@@ -1,9 +1,6 @@
 import "./style.css";
 import * as THREE from "three";
-import * as dat from "lil-gui";
 import * as JustinScene from "./Group/JustinScene";
-import * as MichaelScene from "./Group/MichaelScene";
-import * as GithenduScene from "./Group/GithenduScene";
 import * as RichScene from "./Group/RichScene";
 import * as CloudScene from "./Group/CloudScene";
 import * as RainScene from "./Group/RainScene";

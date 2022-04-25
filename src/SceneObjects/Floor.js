@@ -1,5 +1,6 @@
 import * as THREE from "three";
 
+// noinspection JSUnusedGlobalSymbols
 export class Floor {
     floorModel;
 

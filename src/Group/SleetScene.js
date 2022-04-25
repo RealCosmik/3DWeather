@@ -9,7 +9,7 @@ import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
 import Rain from "../SceneObjects/Rain";
 import {WeatherData} from "../WeatherAPI";
-import {Camera, Vector2} from "three";
+import {Camera} from "three";
 
 let newRain = new Rain();
 let newWindmill;

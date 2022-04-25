@@ -170,7 +170,7 @@ vec3 getNormal(vec3 pos){
                 "#include <begin_vertex>",
                 `vec3 transformed = vec3(pos);`
             );
-            var groundShader = shader;
+
         };
 
         var ground = new THREE.Mesh(groundGeometry, groundMaterial);

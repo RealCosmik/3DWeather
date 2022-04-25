@@ -11,7 +11,7 @@ var maxMovement = 1;
 var globe;
 var cloud;
 
-//Spotlight has to be global to update it's target location
+//Spotlight has to be global to update its target location
 const spotLight = new THREE.SpotLight(0xffffff, 10, 75, .25, 0, 1);
 
 export async function Initalize(scene, camera, canvas) {
@@ -77,7 +77,7 @@ function AddLightsToScene(scene) {
     spotLight.position.set(10, 0, 50);
     //Pointing the spotlight right at the center of the globe
     spotLight.target.position.set(35, 0, 0);
-    //Updating the coordinate matrix for the spotlight so it points right at the globe
+    //Updating the coordinate matrix for the spotlight, so it points right at the globe
     spotLight.target.updateMatrixWorld();
     scene.add(spotLight);
 

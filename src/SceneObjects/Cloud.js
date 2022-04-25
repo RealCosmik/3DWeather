@@ -1,9 +1,9 @@
 import {FBXLoader} from "three/examples/jsm/loaders/FBXLoader.js";
 
 export class Cloud {
-    #deltaY = 0;
-    #increase = true;
-    #maxMovement = 1;
+
+
+
     cloudModel;
 
     static async CreateCloud() {
@@ -17,15 +17,4 @@ export class Cloud {
         return newCloud;
     }
 
-    moveCloud(deltaTime, speed) {
-        this.#deltaY += deltaTime;
-        if (this.#deltaY)
-            this.cloudModel.position.y += deltaTime * speed
-        else
-            this.cloudModel.position.y -= deltaTime * speed
-        if (this.#deltaY >= this.#maxMovement) {
-            this.#increase = !this.#increase;
-            this.#deltaY = 0;
-        }
-    }
 }

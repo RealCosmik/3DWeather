@@ -16,7 +16,7 @@ export async function Text(scene, message, splitFlag) {
     await fontLoader
         .loadAsync("/fonts/helvetiker_regular.typeface.json")
         .then((font) => {
-            if (message.toString().length > 15 && splitFlag == true) {
+            if (message.toString().length > 15 && splitFlag === true) {
                 position = 0;
                 wordList = message.split(" ");
                 wordMap = wordList.map((word, index) => {

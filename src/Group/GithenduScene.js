@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols,JSUnusedLocalSymbols
+
 import {Text} from "../SceneObjects/Text.js";
 import {Room} from "../SceneObjects/Room.js";
 import windmill from "../SceneObjects/Windmill";
