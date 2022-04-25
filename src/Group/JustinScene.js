@@ -11,6 +11,7 @@ import { Sun } from "../SceneObjects/Sun.js";
 import Rain from "../SceneObjects/Rain";
 import { WeatherData } from "../WeatherAPI";
 import { Grass } from "../SceneObjects/Grass.js";
+// hello
 let newRain;
 let newWindmill;
 const clock = new THREE.Clock();
