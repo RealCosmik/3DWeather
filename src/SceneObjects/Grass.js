@@ -1,6 +1,11 @@
 import * as THREE from "three";
 import { Cache as grassModel } from "three";
 
+//Eddie Lee, 2010
+//"Realistic real-time grass rendering"
+//https://codepen.io/al-ro/pen/GRJzYQK
+//4/18/2022
+
 export class Grass {
   grassMesh = new THREE.Mesh();
   grassGroup = new THREE.Group();
