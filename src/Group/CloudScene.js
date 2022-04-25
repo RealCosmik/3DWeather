@@ -60,13 +60,12 @@ export async function Initalize(scene, camera, canvas) {
   textTemperature.position.set(-2.4, 1, 2);
   textTemperature.rotateY(-300);
 
-  const newFloor = await Floor.CreateFloor();
   const newRoom = await Room.CreateRoom();
   newWindmill = await windmill.CreateWindmill();
   newWindmill.windmillGroup.position.set(0, 10.5, 0);
   newWindmill.windmillGroup.rotateY(45);
   scene.add(newWindmill.windmillGroup);
-  groupModels.add(newFloor.floorModel, newRoom.roomModel);
+  groupModels.add(newRoom.roomModel);
 
   groupModels.scale.set(8, 8, 8);
   groupTexts.scale.set(8, 8, 8);
