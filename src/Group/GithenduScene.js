@@ -21,7 +21,7 @@ const clock = new THREE.Clock();
 export async function Initalize(scene, camera, canvas) {
 
     mainCamera = camera;
-
+    entry.PlayAudio("/sounds/wind.wav");
     scene.background = new THREE.Color(0x53789e);
     var groupModels = new THREE.Group();
     var groupTexts = new THREE.Group();
