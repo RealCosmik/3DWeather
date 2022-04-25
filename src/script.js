@@ -7,9 +7,9 @@ import * as GithenduScene from "./Group/GithenduScene";
 import * as RichScene from "./Group/RichScene";
 import * as CloudScene from "./Group/CloudScene";
 import * as RainScene from "./Group/RainScene";
-import * as LightingScene from "./Group/LightingScene";
 import * as SnowScene from "./Group/SnowScene";
 import * as SleetScene from "./Group/SleetScene";
+import * as LightingScene from "./Group/LightingScene";
 import * as WeatherHelper from "./WeatherAPI";
 import * as Onsubmit from "./OnSubmit";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -135,7 +135,7 @@ async function SceneSelector(response) {
       await JustinScene.Initalize(scene, camera, canvas);
       break;
     case "LightCloud":
-      await JustinScene.Initalize(scene, camera, canvas);
+      await CloudScene.Initalize(scene, camera, canvas);
       break;
     case "DarkCloud":
       await CloudScene.Initalize(scene, camera, canvas);
@@ -197,5 +197,4 @@ function UpdateRefreshTimer() {
   if (elapsedSeconds % 300 >= 299.99) {
     LoadScene(Onsubmit.userZipCode);
   }
-  //  console.log(elapsedSeconds.toFixed(1) % 10);
 }
