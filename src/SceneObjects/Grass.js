@@ -2,12 +2,11 @@ import * as THREE from "three";
 import { Cache as grassModel } from "three";
 
 export class Grass {
-
   grassMesh = new THREE.Mesh();
   grassGroup = new THREE.Group();
   grassMaterial = new THREE.RawShaderMaterial();
   swayGrass(speed) {
-    this.grassMaterial.uniforms.time.value += speed
+    this.grassMaterial.uniforms.time.value += speed;
   }
   static async CreateGrass(canvas) {
     const newGrass = new Grass();
@@ -40,29 +39,48 @@ export class Grass {
     var sunColour = new THREE.Vector3(1.0, 1.0, 1.0);
     var specularColour = new THREE.Vector3(1.0, 1.0, 1.0);
 
-    //Grass scene
-    //Light for ground plane
-    var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    newGrass.grassGroup.add(ambientLight);
+    // //Grass scene
+    // //Light for ground plane
+    // var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    // newGrass.grassGroup.add(ambientLight);
 
     //Get alpha map and blade texture
     //These have been taken from "Realistic real-time grass rendering" by Eddie Lee, 2010
     var loader = new THREE.TextureLoader();
-    loader.crossOrigin = '';
-    var grassTexture = loader.load('https://al-ro.github.io/images/grass/blade_diffuse.jpg');
-    var alphaMap = loader.load('https://al-ro.github.io/images/grass/blade_alpha.jpg');
-    var noiseTexture = loader.load('https://al-ro.github.io/images/grass/perlinFbm.jpg');
+    loader.crossOrigin = "";
+    var grassTexture = loader.load(
+      "https://al-ro.github.io/images/grass/blade_diffuse.jpg"
+    );
+    var alphaMap = loader.load(
+      "https://al-ro.github.io/images/grass/blade_alpha.jpg"
+    );
+    var noiseTexture = loader.load(
+      "https://al-ro.github.io/images/grass/perlinFbm.jpg"
+    );
     noiseTexture.wrapS = THREE.RepeatWrapping;
     noiseTexture.wrapT = THREE.RepeatWrapping;
 
     //************** Ground **************
     //Ground material is a modification of the existing THREE.MeshPhongMaterial rather than one from scratch
-    var groundBaseGeometry = new THREE.PlaneBufferGeometry(canvas.width, canvas.width, resolution, resolution);
+    var groundBaseGeometry = new THREE.PlaneBufferGeometry(
+      canvas.width,
+      canvas.width,
+      resolution,
+      resolution
+    );
     groundBaseGeometry.lookAt(new THREE.Vector3(0, 1, 0));
     groundBaseGeometry.verticesNeedUpdate = true;
 
-    var groundGeometry = new THREE.PlaneBufferGeometry(canvas.width, canvas.width, resolution, resolution);
-    groundGeometry.setAttribute('basePosition', groundBaseGeometry.getAttribute("position"));
+    var groundGeometry = new THREE.PlaneBufferGeometry(
+      canvas.width,
+      canvas.width,
+      resolution,
+      resolution
+    );
+    groundGeometry.setAttribute(
+      "basePosition",
+      groundBaseGeometry.getAttribute("position")
+    );
     groundGeometry.lookAt(new THREE.Vector3(0, 1, 0));
     groundGeometry.verticesNeedUpdate = true;
     var groundMaterial = new THREE.MeshPhongMaterial({ color: 0x000900 });
@@ -74,7 +92,9 @@ float getYPosition(vec2 p){
 }
 `;
 
-    var groundVertexPrefix = sharedPrefix + ` 
+    var groundVertexPrefix =
+      sharedPrefix +
+      ` 
 attribute vec3 basePosition;
 uniform float delta;
 uniform float posX;
@@ -131,7 +151,7 @@ vec3 getNormal(vec3 pos){
       shader.uniforms.noiseTexture = { value: noiseTexture };
       shader.vertexShader = groundVertexPrefix + shader.vertexShader;
       shader.vertexShader = shader.vertexShader.replace(
-        '#include <beginnormal_vertex>',
+        "#include <beginnormal_vertex>",
         `//https://dev.to/maurobringolf/a-neat-trick-to-compute-modulo-of-negative-numbers-111e
 			vec3 pos = vec3(0);
       pos.x = basePosition.x - mod(mod((delta*posX),delta) + delta, delta);
@@ -144,7 +164,7 @@ vec3 getNormal(vec3 pos){
 #endif`
       );
       shader.vertexShader = shader.vertexShader.replace(
-        '#include <begin_vertex>',
+        "#include <begin_vertex>",
         `vec3 transformed = vec3(pos);`
       );
       var groundShader = shader;
@@ -152,14 +172,16 @@ vec3 getNormal(vec3 pos){
 
     var ground = new THREE.Mesh(groundGeometry, groundMaterial);
 
-    ground.position.y = .5
-    ground.scale.set(.06, .06, .06);
+    ground.position.y = 0.5;
+    ground.scale.set(0.06, 0.06, 0.06);
 
     ground.geometry.computeVertexNormals();
     newGrass.grassGroup.add(ground);
 
     //************** Grass **************
-    var grassVertexSource = sharedPrefix + `
+    var grassVertexSource =
+      sharedPrefix +
+      `
 precision mediump float;
 attribute vec3 position;
 attribute vec3 normal;
@@ -208,7 +230,9 @@ float placeOnSphere(vec3 v){
 void main() {
 
 	//Vertex height in blade geometry
-	frc = position.y / float(` + bladeHeight + `);
+	frc = position.y / float(` +
+      bladeHeight +
+      `);
 
 	//Scale vertices
   vec3 vPosition = position;
@@ -375,7 +399,12 @@ void main() {
 }`;
 
     //Define base geometry that will be instanced. We use a plane for an individual blade of grass
-    var grassBaseGeometry = new THREE.PlaneBufferGeometry(bladeWidth, bladeHeight, 1, joints);
+    var grassBaseGeometry = new THREE.PlaneBufferGeometry(
+      bladeWidth,
+      bladeHeight,
+      1,
+      joints
+    );
     grassBaseGeometry.translate(0, bladeHeight / 2, 0);
 
     //Define the bend of the grass blade as the combination of three quaternion rotations
@@ -423,7 +452,11 @@ void main() {
     let quaternion2 = new THREE.Quaternion();
 
     //Bend grass base geometry for more organic look
-    for (let v = 0; v < grassBaseGeometry.attributes.position.array.length; v += 3) {
+    for (
+      let v = 0;
+      v < grassBaseGeometry.attributes.position.array.length;
+      v += 3
+    ) {
       quaternion2.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2);
       vertex.x = grassBaseGeometry.attributes.position.array[v];
       vertex.y = grassBaseGeometry.attributes.position.array[v + 1];
@@ -445,7 +478,8 @@ void main() {
     var instancedGeometry = new THREE.InstancedBufferGeometry();
 
     instancedGeometry.index = grassBaseGeometry.index;
-    instancedGeometry.attributes.position = grassBaseGeometry.attributes.position;
+    instancedGeometry.attributes.position =
+      grassBaseGeometry.attributes.position;
     instancedGeometry.attributes.uv = grassBaseGeometry.attributes.uv;
     instancedGeometry.attributes.normal = grassBaseGeometry.attributes.normal;
 
@@ -457,7 +491,6 @@ void main() {
 
     //For each instance of the grass blade
     for (let i = 0; i < instances; i++) {
-
       indices.push(i / instances);
 
       //Offset of the roots
@@ -478,44 +511,59 @@ void main() {
       }
     }
 
-    var offsetAttribute = new THREE.InstancedBufferAttribute(new Float32Array(offsets), 3);
-    var scaleAttribute = new THREE.InstancedBufferAttribute(new Float32Array(scales), 1);
-    var halfRootAngleAttribute = new THREE.InstancedBufferAttribute(new Float32Array(halfRootAngles), 2);
-    var indexAttribute = new THREE.InstancedBufferAttribute(new Float32Array(indices), 1);
+    var offsetAttribute = new THREE.InstancedBufferAttribute(
+      new Float32Array(offsets),
+      3
+    );
+    var scaleAttribute = new THREE.InstancedBufferAttribute(
+      new Float32Array(scales),
+      1
+    );
+    var halfRootAngleAttribute = new THREE.InstancedBufferAttribute(
+      new Float32Array(halfRootAngles),
+      2
+    );
+    var indexAttribute = new THREE.InstancedBufferAttribute(
+      new Float32Array(indices),
+      1
+    );
 
-    instancedGeometry.setAttribute('offset', offsetAttribute);
-    instancedGeometry.setAttribute('scale', scaleAttribute);
-    instancedGeometry.setAttribute('halfRootAngle', halfRootAngleAttribute);
-    instancedGeometry.setAttribute('index', indexAttribute);
+    instancedGeometry.setAttribute("offset", offsetAttribute);
+    instancedGeometry.setAttribute("scale", scaleAttribute);
+    instancedGeometry.setAttribute("halfRootAngle", halfRootAngleAttribute);
+    instancedGeometry.setAttribute("index", indexAttribute);
 
     //Define the material, specifying attributes, uniforms, shaders etc.
     newGrass.grassMaterial = new THREE.RawShaderMaterial({
       uniforms: {
-        time: { type: 'float', value: 0 },
-        delta: { type: 'float', value: delta },
-        posX: { type: 'float', value: pos.x },
-        posZ: { type: 'float', value: pos.y },
-        radius: { type: 'float', value: radius },
-        width: { type: 'float', value: canvas.width },
+        time: { type: "float", value: 0 },
+        delta: { type: "float", value: delta },
+        posX: { type: "float", value: pos.x },
+        posZ: { type: "float", value: pos.y },
+        radius: { type: "float", value: radius },
+        width: { type: "float", value: canvas.width },
         map: { value: grassTexture },
         alphaMap: { value: alphaMap },
         noiseTexture: { value: noiseTexture },
-        ambientStrength: { type: 'float', value: ambientStrength },
-        translucencyStrength: { type: 'float', value: translucencyStrength },
-        diffuseStrength: { type: 'float', value: diffuseStrength },
-        specularStrength: { type: 'float', value: specularStrength },
-        shininess: { type: 'float', value: shininess },
-        lightColour: { type: 'vec3', value: sunColour },
-        specularColour: { type: 'vec3', value: specularColour },
+        ambientStrength: { type: "float", value: ambientStrength },
+        translucencyStrength: { type: "float", value: translucencyStrength },
+        diffuseStrength: { type: "float", value: diffuseStrength },
+        specularStrength: { type: "float", value: specularStrength },
+        shininess: { type: "float", value: shininess },
+        lightColour: { type: "vec3", value: sunColour },
+        specularColour: { type: "vec3", value: specularColour },
       },
       vertexShader: grassVertexSource,
       fragmentShader: grassFragmentSource,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
     });
 
-    newGrass.grassMesh = new THREE.Mesh(instancedGeometry, newGrass.grassMaterial);
+    newGrass.grassMesh = new THREE.Mesh(
+      instancedGeometry,
+      newGrass.grassMaterial
+    );
     newGrass.grassMesh.position.y = 0.5;
-    newGrass.grassMesh.scale.set(.06, .06, .06);
+    newGrass.grassMesh.scale.set(0.06, 0.06, 0.06);
     newGrass.grassGroup.add(newGrass.grassMesh);
     return newGrass;
   }

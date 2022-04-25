@@ -22,17 +22,26 @@ export async function Initalize(scene, camera, canvas) {
   var groupTexts = new THREE.Group();
   var groupSunCloud = new THREE.Group();
 
-  var textLocation = await Text(scene, WeatherHelper.WeatherData.location.name, false);
+  var textLocation = await Text(
+    scene,
+    WeatherHelper.WeatherData.location.name,
+    false
+  );
   textLocation.position.set(-2.4, 4, 2);
   textLocation.rotateY(-300);
 
-  var textRegion = await Text(scene, WeatherHelper.WeatherData.location.region, true);
+  var textRegion = await Text(
+    scene,
+    WeatherHelper.WeatherData.location.region,
+    true
+  );
   textRegion.position.set(-2.4, 3.25, 2);
   textRegion.rotateY(-300);
 
   var textCondition = await Text(
     scene,
-    WeatherHelper.WeatherData.current.condition.text, false
+    WeatherHelper.WeatherData.current.condition.text,
+    false
   );
   textCondition.position.set(-2.4, 1.75, 2);
   textCondition.rotateY(-300);
@@ -48,14 +57,14 @@ export async function Initalize(scene, camera, canvas) {
   const newCloud = await Cloud.CreateCloud();
   const sun = await Sun.CreateSun();
   groupSunCloud.add(newCloud.cloudModel, sun.sunModel);
-  const newDuck = await Duck.CreateNewDuck();
+  //const newDuck = await Duck.CreateNewDuck();
   const newFloor = await Floor.CreateFloor();
   const newRoom = await Room.CreateRoom();
   newWindmill = await windmill.CreateWindmill();
   newWindmill.windmillGroup.position.set(0, 10.5, 0);
   newWindmill.windmillGroup.rotateY(45);
   scene.add(newWindmill.windmillGroup);
-  groupModels.add(newDuck.duckModel, newFloor.floorModel, newRoom.roomModel);
+  groupModels.add(newFloor.floorModel, newRoom.roomModel);
 
   groupModels.scale.set(8, 8, 8);
   groupTexts.scale.set(8, 8, 8);
@@ -72,8 +81,8 @@ export async function Initalize(scene, camera, canvas) {
 
   scene.add(groupModels, groupTexts, groupSunCloud);
   grass = await Grass.CreateGrass(canvas);
+  grass.grassGroup.scale.set(0.7, 1, 0.7);
   scene.add(grass.grassGroup);
-  grass.grassGroup.scale.set(3, 3, 3);
   AddLightsToScene(scene);
 
   entry.RegisterOnSceneUpdate(Update);
@@ -99,26 +108,6 @@ function AddLightsToScene(scene) {
   directionalLight.shadow.camera.bottom = -7;
   directionalLight.position.set(-5, 5, 0);
   scene.add(directionalLight);
-
-  const hemisphereLightHelper = new THREE.HemisphereLightHelper(
-    hemisphereLight,
-    0.2
-  );
-  scene.add(hemisphereLightHelper);
-
-  const directionalLightHelper = new THREE.DirectionalLightHelper(
-    directionalLight,
-    0.2
-  );
-  // scene.add(directionalLightHelper);
-
-  const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2);
-  scene.add(pointLightHelper);
-
-  const directionalLightCameraHelper = new THREE.CameraHelper(
-    directionalLight.shadow.camera
-  );
-  scene.add(directionalLightCameraHelper);
 }
 
 function Update(deltaTime) {
