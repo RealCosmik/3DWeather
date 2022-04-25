@@ -14,7 +14,7 @@ import { Camera, Vector2 } from "three";
 
 let newRain = new Rain();
 let newWindmill;
-let newWater;
+let newWater = new Water();
 const clock = new THREE.Clock();
 var mainCamera = new Camera();
 export async function Initalize(scene, camera, canvas) {
@@ -25,17 +25,26 @@ export async function Initalize(scene, camera, canvas) {
   var groupTexts = new THREE.Group();
   var groupSunCloud = new THREE.Group();
 
-  var textLocation = await Text(scene, WeatherHelper.WeatherData.location.name, false);
+  var textLocation = await Text(
+    scene,
+    WeatherHelper.WeatherData.location.name,
+    false
+  );
   textLocation.position.set(-2.4, 4, 2);
   textLocation.rotateY(-300);
 
-  var textRegion = await Text(scene, WeatherHelper.WeatherData.location.region, true);
+  var textRegion = await Text(
+    scene,
+    WeatherHelper.WeatherData.location.region,
+    true
+  );
   textRegion.position.set(-2.4, 3.25, 2);
   textRegion.rotateY(-300);
 
   var textCondition = await Text(
     scene,
-    WeatherHelper.WeatherData.current.condition.text, false
+    WeatherHelper.WeatherData.current.condition.text,
+    false
   );
   textCondition.position.set(-2.4, 1.75, 2);
   textCondition.rotateY(-300);
@@ -54,14 +63,14 @@ export async function Initalize(scene, camera, canvas) {
   const newDuck = await Duck.CreateNewDuck();
   newDuck.duckModel.scale.set(0.5, 0.5, 0.5);
   newDuck.duckModel.position.set(-0.5, 0, 0.5);
-  // newWater = await Water.CreateWater();
+  newWater = await Water.CreateWater();
   const newRoom = await Room.CreateRoom();
 
   newWindmill = await windmill.CreateWindmill();
   newWindmill.windmillGroup.position.set(0, 10.5, 0);
   newWindmill.windmillGroup.rotateY(45);
   scene.add(newWindmill.windmillGroup);
-  groupModels.add(newDuck.duckModel, /*newWater.groupModel,*/ newRoom.roomModel);
+  groupModels.add(newDuck.duckModel, newWater.groupModel, newRoom.roomModel);
 
   groupModels.scale.set(8, 8, 8);
   groupTexts.scale.set(8, 8, 8);
@@ -81,6 +90,7 @@ export async function Initalize(scene, camera, canvas) {
   newRain = await Rain.CreateRain();
   scene.add(newRain.particleRender);
   newRain.particleRender.position.set(0, 0, 50);
+
   AddLightsToScene(scene);
   entry.RegisterOnSceneUpdate(Update);
 }
@@ -109,8 +119,7 @@ function AddLightsToScene(scene) {
 function Update(deltaTime) {
   newRain.DownPour(deltaTime * 20);
   const elapsedTime = clock.getElapsedTime();
-  // newRain.animateRain(0.01);
-  // newWater.animateWaves(elapsedTime);
+  newWater.animateWaves(elapsedTime);
   if (WeatherData.current.wind_mph)
     newWindmill.rotateWindmill(WeatherData.current.wind_mph * deltaTime);
 }
