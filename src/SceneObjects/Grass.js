@@ -5,6 +5,7 @@ export class Grass {
   grassMesh = new THREE.Mesh();
   grassGroup = new THREE.Group();
   grassMaterial = new THREE.RawShaderMaterial();
+
   swayGrass(speed) {
     this.grassMaterial.uniforms.time.value += speed;
   }

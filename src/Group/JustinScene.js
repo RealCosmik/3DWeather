@@ -59,13 +59,12 @@ export async function Initalize(scene, camera, canvas) {
   const sun = await Sun.CreateSun();
   groupSunCloud.add(newCloud.cloudModel, sun.sunModel);
   //const newDuck = await Duck.CreateNewDuck();
-  const newFloor = await Floor.CreateFloor();
   const newRoom = await Room.CreateRoom();
   newWindmill = await windmill.CreateWindmill();
   newWindmill.windmillGroup.position.set(0, 10.5, 0);
   newWindmill.windmillGroup.rotateY(45);
   scene.add(newWindmill.windmillGroup);
-  groupModels.add(newFloor.floorModel, newRoom.roomModel);
+  groupModels.add(newRoom.roomModel);
 
   groupModels.scale.set(8, 8, 8);
   groupTexts.scale.set(8, 8, 8);
@@ -80,7 +79,7 @@ export async function Initalize(scene, camera, canvas) {
   grass = await Grass.CreateGrass(canvas);
   grass.grassGroup.scale.set(0.7, 1, 0.7);
   scene.add(grass.grassGroup);
-  //AddLightsToScene(scene);
+  AddLightsToScene(scene);
 
   entry.RegisterOnSceneUpdate(Update);
 }
