@@ -10,10 +10,11 @@ import * as WeatherHelper from "../WeatherAPI";
 import { Sun } from "../SceneObjects/Sun.js";
 import Rain from "../SceneObjects/Rain";
 import { WeatherData } from "../WeatherAPI";
+import { Grass } from "../SceneObjects/Grass.js";
 let newRain;
 let newWindmill;
 const clock = new THREE.Clock();
-
+var grass = new Grass();
 export async function Initalize(scene, camera, canvas) {
   entry.PlayAudio("/sounds/birds.mp3");
   scene.background = new THREE.Color(0x53789e);
@@ -70,8 +71,11 @@ export async function Initalize(scene, camera, canvas) {
   scene.add(axesHelper);
 
   scene.add(groupModels, groupTexts, groupSunCloud);
-
+  grass = await Grass.CreateGrass(canvas);
+  scene.add(grass.grassGroup);
+  grass.grassGroup.scale.set(3, 3, 3);
   AddLightsToScene(scene);
+
   entry.RegisterOnSceneUpdate(Update);
 }
 
@@ -120,4 +124,5 @@ function AddLightsToScene(scene) {
 function Update(deltaTime) {
   if (WeatherData.current.wind_mph)
     newWindmill.rotateWindmill(WeatherData.current.wind_mph * deltaTime);
+  grass.swayGrass(deltaTime * WeatherData.current.wind_mph);
 }

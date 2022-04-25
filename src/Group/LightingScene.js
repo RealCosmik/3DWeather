@@ -113,7 +113,7 @@ function update(deltaTime) {
     sun.sunModel.position.set(newPos.x, newPos.y, rotationData.origin.z);
     if (!rotationData.manualControl) {
         rotationData.angle = newAngle;
-        const newIntensity = rotationData.angle / 180 * 1;
+        const newIntensity = rotationData.angle / 180 * .6;
         rotationData.mainLight.intensity = newIntensity;
         sun.sunMaterial.opacity = newIntensity;
     }
