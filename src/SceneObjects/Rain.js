@@ -4,6 +4,7 @@ export default class Rain {
   raingeo = new THREE.BufferGeometry();
   particleRender = new THREE.Points();
   points = [];
+  rainMaterial = new THREE.PointsMaterial();
   static async CreateRain() {
     const newRain = new Rain();
     for (let i = 0; i < 1000; i++) {
@@ -16,9 +17,9 @@ export default class Rain {
       newRain.points.push(rainDrop);
     }
     newRain.raingeo.setFromPoints(newRain.points)
-    const rainMaterial = new THREE.PointsMaterial({ color: 0xaaaaaa, size: 5, transparent: true });
-    rainMaterial.size = 5;
-    rainMaterial.color = new Color('blue');
+    newRain.rainMaterial = new THREE.PointsMaterial({ color: 0xaaaaaa, size: 5, transparent: true });
+    newRain.rainMaterial.size = 5;
+    newRain.rainMaterial.color = new Color('blue');
     newRain.particleRender = new THREE.Points(newRain.raingeo, rainMaterial);
     return newRain;
   }
