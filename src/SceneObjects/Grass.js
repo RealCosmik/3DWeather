@@ -474,7 +474,7 @@ void main() {
 
         grassBaseGeometry.computeVertexNormals();
         var baseMaterial = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
-        var baseBlade = new THREE.Mesh(grassBaseGeometry, baseMaterial);
+        new THREE.Mesh(grassBaseGeometry, baseMaterial);
         //Show grass base geometry
         //scene.add(baseBlade);
 

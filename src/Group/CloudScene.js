@@ -1,3 +1,5 @@
+// noinspection CommaExpressionJS
+
 import {Text} from "../SceneObjects/Text.js";
 import {Cloud} from "../SceneObjects/Cloud.js";
 import {Room} from "../SceneObjects/Room.js";

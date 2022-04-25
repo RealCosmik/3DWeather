@@ -1,3 +1,5 @@
+// noinspection JSUnusedLocalSymbols
+
 import {Duck} from "../SceneObjects/Duck.js";
 import {Water} from "../SceneObjects/Water.js";
 import {Text} from "../SceneObjects/Text.js";

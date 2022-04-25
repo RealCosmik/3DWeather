@@ -1,3 +1,5 @@
+// noinspection JSUnusedLocalSymbols
+
 import {Sun} from "../SceneObjects/Sun"
 import * as entry from "../script";
 import * as THREE from "three";

@@ -1,3 +1,5 @@
+// noinspection JSUnusedLocalSymbols
+
 import * as entry from "../script";
 import * as THREE from "three";
 import {Globe} from "../SceneObjects/Globe";
@@ -81,7 +83,7 @@ function AddLightsToScene(scene) {
     spotLight.target.updateMatrixWorld();
     scene.add(spotLight);
 
-    const spotLightHelper = new THREE.SpotLightHelper(spotLight, 0.2);
+    new THREE.SpotLightHelper(spotLight, 0.2);
     //scene.add(spotLightHelper);
 
 }

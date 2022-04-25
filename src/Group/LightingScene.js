@@ -1,3 +1,5 @@
+// noinspection JSUnusedLocalSymbols
+
 import * as entry from "../script";
 import * as THREE from "three";
 import {Vector3} from "three";
@@ -5,7 +7,7 @@ import * as dat from "lil-gui";
 import {WeatherData} from "../WeatherAPI";
 import {Sun} from "../SceneObjects/Sun";
 
-let PositionFolder;
+
 let RotationFolder;
 let gui;
 let directionalLight;

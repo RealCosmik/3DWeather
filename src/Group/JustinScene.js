@@ -5,7 +5,6 @@ import windmill from "../SceneObjects/Windmill";
 import * as entry from "../script";
 import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
-import {Sun} from "../SceneObjects/Sun.js";
 import {WeatherData} from "../WeatherAPI";
 import {Grass} from "../SceneObjects/Grass.js";
 // hello
