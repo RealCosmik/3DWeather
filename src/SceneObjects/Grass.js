@@ -40,9 +40,6 @@ export class Grass {
     var specularColour = new THREE.Vector3(1.0, 1.0, 1.0);
 
     // //Grass scene
-    // //Light for ground plane
-    // var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    // newGrass.grassGroup.add(ambientLight);
 
     //Get alpha map and blade texture
     //These have been taken from "Realistic real-time grass rendering" by Eddie Lee, 2010
@@ -562,6 +559,13 @@ void main() {
       instancedGeometry,
       newGrass.grassMaterial
     );
+    // //Light for ground plane
+    var pointLight = new THREE.SpotLight(0xffffff, 0.5);
+    pointLight.intensity = 100;
+    pointLight.position.y = 0.75;
+    pointLight.angle = 0.75;
+    newGrass.grassGroup.add(pointLight);
+
     newGrass.grassMesh.position.y = 0.5;
     newGrass.grassMesh.scale.set(0.06, 0.06, 0.06);
     newGrass.grassGroup.add(newGrass.grassMesh);

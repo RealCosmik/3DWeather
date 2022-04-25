@@ -8,6 +8,8 @@ import * as RichScene from "./Group/RichScene";
 import * as CloudScene from "./Group/CloudScene";
 import * as RainScene from "./Group/RainScene";
 import * as LightingScene from "./Group/LightingScene";
+import * as SnowScene from "./Group/SnowScene";
+import * as SleetScene from "./Group/SleetScene";
 import * as WeatherHelper from "./WeatherAPI";
 import * as Onsubmit from "./OnSubmit";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -142,13 +144,13 @@ async function SceneSelector(response) {
       await RainScene.Initalize(scene, camera, canvas);
       break;
     case "Snow":
-      await CloudScene.Initalize(scene, camera, canvas);
+      await SnowScene.Initalize(scene, camera, canvas);
       break;
     case "Sleet":
-      await RainScene.Initalize(scene, camera, canvas);
+      await SleetScene.Initalize(scene, camera, canvas);
       break;
     default:
-      await CloudScene.Initalize(scene, camera, canvas);
+      await RichScene.Initalize(scene, camera, canvas);
       break;
   }
   await LightingScene.Initialize(scene, camera, canvas);

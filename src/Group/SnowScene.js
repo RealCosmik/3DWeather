@@ -12,13 +12,12 @@ import Rain from "../SceneObjects/Rain";
 import { WeatherData } from "../WeatherAPI";
 import { Camera, Vector2 } from "three";
 
-let newRain = new Rain("Blue");
+let newRain = new Rain();
 let newWindmill;
 let newWater = new Water();
 const clock = new THREE.Clock();
 var mainCamera = new Camera();
 export async function Initalize(scene, camera, canvas) {
-  console.log("hi rain");
   mainCamera = camera;
   scene.background = new THREE.Color(0x53789e);
 
@@ -65,6 +64,8 @@ export async function Initalize(scene, camera, canvas) {
   newDuck.duckModel.scale.set(0.5, 0.5, 0.5);
   newDuck.duckModel.position.set(-0.5, 0, 0.5);
   newWater = await Water.CreateWater();
+  //   newWater.waterMaterial.uniforms.uSurfaceColor.value = new THREE.Color("Snow");
+  newWater.waterMaterial.uniforms.uDepthColor.value = new THREE.Color("Grey");
   const newRoom = await Room.CreateRoom();
 
   newWindmill = await windmill.CreateWindmill();
@@ -89,6 +90,7 @@ export async function Initalize(scene, camera, canvas) {
   scene.add(groupModels, groupTexts, groupSunCloud);
 
   newRain = await Rain.CreateRain();
+  newRain.rainMaterial.color = new THREE.Color("Snow");
   scene.add(newRain.particleRender);
   newRain.particleRender.position.set(0, 0, 50);
 

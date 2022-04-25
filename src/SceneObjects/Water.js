@@ -2,10 +2,11 @@ import * as THREE from "three";
 import waterVertexShader from "../Shaders/Water/vertex.glsl";
 import waterFragmentShader from "../Shaders/Water/fragment.glsl";
 import * as dat from "lil-gui";
+import { ShaderMaterial } from "three";
 
 export class Water {
   waterModel;
-  waterMaterial;
+  waterMaterial = new ShaderMaterial();
   groupModel;
 
   static async CreateWater() {
