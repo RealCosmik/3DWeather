@@ -21,6 +21,9 @@ var newCloud5;
 //const spotLight = new THREE.SpotLight(0xffff99, 3, 165, .25, 0, 1, 1);
 
 export async function Initalize(scene, camera, canvas) {
+  
+  entry.PlayAudio("/sounds/birds.mp3");
+
   scene.background = new THREE.Color(0x53789e);
   var groupModels = new THREE.Group();
   var groupTexts = new THREE.Group();
