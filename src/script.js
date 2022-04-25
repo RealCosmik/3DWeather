@@ -193,5 +193,5 @@ export function PlayAudio(filePath) {
 }
 function UpdateRefreshTimer() {
   const elapsedSeconds = clock.elapsedTime;
-  console.log(elapsedSeconds.toFixed(1) % 10);
+  //console.log(elapsedSeconds.toFixed(1) % 10);
 }
