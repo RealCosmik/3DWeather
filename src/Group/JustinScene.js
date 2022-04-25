@@ -80,7 +80,7 @@ export async function Initalize(scene, camera, canvas) {
   grass = await Grass.CreateGrass(canvas);
   grass.grassGroup.scale.set(0.7, 1, 0.7);
   scene.add(grass.grassGroup);
-  AddLightsToScene(scene);
+  //AddLightsToScene(scene);
 
   entry.RegisterOnSceneUpdate(Update);
 }
