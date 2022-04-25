@@ -165,9 +165,11 @@ function RenderLoop() {
   previousTime = elapsedTime;
   camera.updateProjectionMatrix();
   controls.update();
-  for (let i = 0; i < sceneUpdates.length; i++)
+  for (let i = 0; i < sceneUpdates.length; i++) {
     sceneUpdates[i](deltaTime);
+  }
   renderer.render(scene, camera);
+  UpdateRefreshTimer();
   window.requestAnimationFrame(RenderLoop);
 }
 export function RegisterOnSceneUpdate(updateCallback) {
@@ -188,4 +190,8 @@ export function PlayAudio(filePath) {
   audio.play();
   audio.volume = 0.1;
   audio.loop = true;
+}
+function UpdateRefreshTimer() {
+  const elapsedSeconds = clock.elapsedTime;
+  console.log(elapsedSeconds.toFixed(1) % 10);
 }
