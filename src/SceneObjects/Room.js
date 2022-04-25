@@ -5,6 +5,7 @@ export class Room {
   static async CreateRoom() {
     const newRoom = new Room();
     newRoom.roomModel = new THREE.Group();
+
     const wallLeft = new THREE.Mesh(
       new THREE.BoxGeometry(0.25, 5, 5),
       new THREE.MeshStandardMaterial({ color: "#FFFFFF" })
