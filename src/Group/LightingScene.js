@@ -1,7 +1,7 @@
 import * as entry from "../script";
 import * as THREE from "three";
+import {Vector3} from "three";
 import * as dat from "lil-gui";
-import {Color, Vector3} from "three";
 import {WeatherData} from "../WeatherAPI";
 import {Sun} from "../SceneObjects/Sun";
 
@@ -18,7 +18,7 @@ export async function Initialize(scene, camera, canvas) {
     sun.sunMaterial.transparent = true;
     entry.RegisterOnSceneUpdate(update);
     gui = new dat.GUI({width: 300});
-    rotationData = new Object();
+    rotationData = {};
     rotationData.angle = 2;
     rotationData.manualControl = false;
     rotationData.speed = 0.1;
@@ -109,8 +109,7 @@ function RotateAroundPoint(pivot, origin, angle) {
         xFactor * (origin.x - pivot.x) - yFactor * (origin.y - pivot.y) + pivot.x;
     const yNew =
         yFactor * (origin.x - pivot.x) + xFactor * (origin.y - pivot.y) + pivot.y;
-    var newPos = new Vector3(xNew, yNew, 0);
-    return newPos;
+    return new Vector3(xNew, yNew, 0);
 }
 
 function GetElaspedHours() {

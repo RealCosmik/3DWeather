@@ -11,7 +11,7 @@ export class Grass {
     grassMaterial = new THREE.RawShaderMaterial();
 
     swayGrass(speed) {
-        this.grassMaterial.uniforms.time.value += speed;
+        this.grassMaterial.uniforms.time.value += speed *.25;
     }
 
     static async CreateGrass(canvas) {

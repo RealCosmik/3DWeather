@@ -11,62 +11,62 @@ export default class windmill {
         this.#rotatingComponents.rotateY(speed);
     }
 
-    // factory method to create a windmill. Returns a newWinmill class instance
+    // factory method to create a windmill. Returns a newWindmill class instance
     static async CreateWindmill() {
         const newWindmill = new windmill();
         newWindmill.windmillGroup = new THREE.Group();
-        var white = new THREE.MeshLambertMaterial({color: "grey"});
+        const white = new THREE.MeshLambertMaterial({color: "grey"});
 
-        var base = new THREE.Mesh(
+        const base = new THREE.Mesh(
             new THREE.CylinderGeometry(1, 1, 1, 32, 3),
             white
         );
         base.position.y = -10;
 
-        var pole = new THREE.Mesh(
+        const pole = new THREE.Mesh(
             new THREE.CylinderGeometry(0.2, 0.5, 20, 32, 1),
             white
         );
 
-        var turbineHousing = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 2), white);
+        const turbineHousing = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 2), white);
         turbineHousing.position.set(0, 10, -0.7);
 
         newWindmill.#rotatingComponents = new THREE.Group();
 
-        var turbineShaft = new THREE.Mesh(
+        const turbineShaft = new THREE.Mesh(
             new THREE.CylinderGeometry(0.2, 0.2, 2, 32, 1),
             white
         );
 
-        var endCap = new THREE.Mesh(new THREE.SphereGeometry(0.2, 32, 32), white);
+        const endCap = new THREE.Mesh(new THREE.SphereGeometry(0.2, 32, 32), white);
         endCap.position.y = 1;
 
-        var triangle = new THREE.Shape(); // Create a triangular prism to form into a blade for the wind mill
+        const triangle = new THREE.Shape(); // Create a triangular prism to form into a blade for the windmill
         triangle.moveTo(-0.35, -0.35);
         triangle.lineTo(0, 6);
         triangle.lineTo(0.35, -0.35);
         triangle.lineTo(-0.35, -0.35);
-        var extrudedGeometry = new THREE.ExtrudeGeometry(triangle, {
+        const extrudedGeometry = new THREE.ExtrudeGeometry(triangle, {
             depth: 0.1,
             bevelEnabled: false,
         });
-        var tPrism = new THREE.Mesh(extrudedGeometry, white);
+        const tPrism = new THREE.Mesh(extrudedGeometry, white);
         tPrism.rotation.x = Math.PI / 2;
         tPrism.position.y = 1;
         tPrism.position.z = 4;
-        var tPrism2 = tPrism.clone();
+        const tPrism2 = tPrism.clone();
         tPrism2.rotation.z = Math.PI;
         tPrism2.position.z = 3.45;
         tPrism2.scale.y = 0.63;
 
-        var blade = new THREE.Object3D();
+        const blade = new THREE.Object3D();
         blade.add(tPrism);
         blade.add(tPrism2);
 
-        var blade2 = blade.clone();
+        const blade2 = blade.clone();
         blade2.rotation.y = (Math.PI / 3) * 2;
 
-        var blade3 = blade.clone();
+        const blade3 = blade.clone();
         blade3.rotation.y = (Math.PI / 3) * 4;
 
         newWindmill.#rotatingComponents.add(turbineShaft);
