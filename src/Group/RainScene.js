@@ -10,15 +10,15 @@ import * as WeatherHelper from "../WeatherAPI";
 import { Sun } from "../SceneObjects/Sun.js";
 import Rain from "../SceneObjects/Rain";
 import { WeatherData } from "../WeatherAPI";
+import { Camera, Vector2 } from "three";
 
-let newRain;
+let newRain = new Rain();
 let newWindmill;
 let newWater;
 const clock = new THREE.Clock();
-
+var mainCamera = new Camera();
 export async function Initalize(scene, camera, canvas) {
-  entry.PlayAudio("/sounds/birds.mp3");
-
+  mainCamera = camera;
   scene.background = new THREE.Color(0x53789e);
 
   var groupModels = new THREE.Group();
@@ -49,21 +49,19 @@ export async function Initalize(scene, camera, canvas) {
   textTemperature.rotateY(-300);
 
   const newCloud = await Cloud.CreateCloud();
-  const sun = await Sun.CreateSun();
-
-  groupSunCloud.add(newCloud.cloudModel, sun.sunModel);
+  groupSunCloud.add(newCloud.cloudModel);
 
   const newDuck = await Duck.CreateNewDuck();
   newDuck.duckModel.scale.set(0.5, 0.5, 0.5);
   newDuck.duckModel.position.set(-0.5, 0, 0.5);
-  newWater = await Water.CreateWater();
+  // newWater = await Water.CreateWater();
   const newRoom = await Room.CreateRoom();
 
   newWindmill = await windmill.CreateWindmill();
   newWindmill.windmillGroup.position.set(0, 10.5, 0);
   newWindmill.windmillGroup.rotateY(45);
   scene.add(newWindmill.windmillGroup);
-  groupModels.add(newDuck.duckModel, newWater.groupModel, newRoom.roomModel);
+  groupModels.add(newDuck.duckModel, /*newWater.groupModel,*/ newRoom.roomModel);
 
   groupModels.scale.set(8, 8, 8);
   groupTexts.scale.set(8, 8, 8);
@@ -81,8 +79,8 @@ export async function Initalize(scene, camera, canvas) {
   scene.add(groupModels, groupTexts, groupSunCloud);
 
   newRain = await Rain.CreateRain();
-  scene.add(newRain.rainParticles);
-  newRain.rainParticles.position.set(0, 50, 0);
+  scene.add(newRain.particleRender);
+  newRain.particleRender.position.set(0, 0, 50);
   AddLightsToScene(scene);
   entry.RegisterOnSceneUpdate(Update);
 }
@@ -106,43 +104,13 @@ function AddLightsToScene(scene) {
   );
   pointWindMillLight.position.set(1, 10, 1);
   scene.add(pointWindMillLightHelper);
-
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-  directionalLight.castShadow = true;
-  directionalLight.shadow.mapSize.set(1024, 1024);
-  directionalLight.shadow.camera.far = 15;
-  directionalLight.shadow.camera.left = -7;
-  directionalLight.shadow.camera.top = 10;
-  directionalLight.shadow.camera.right = 7;
-  directionalLight.shadow.camera.bottom = -7;
-  directionalLight.position.set(-5, 5, 0);
-  scene.add(directionalLight);
-
-  // const hemisphereLightHelper = new THREE.HemisphereLightHelper(
-  //   hemisphereLight,
-  //   0.2
-  // );
-  // scene.add(hemisphereLightHelper);
-
-  // const directionalLightHelper = new THREE.DirectionalLightHelper(
-  //   directionalLight,
-  //   0.2
-  // );
-  // scene.add(directionalLightHelper);
-
-  // const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2);
-  // scene.add(pointLightHelper);
-
-  // const directionalLightCameraHelper = new THREE.CameraHelper(
-  //   directionalLight.shadow.camera
-  // );
-  // scene.add(directionalLightCameraHelper);
 }
 
 function Update(deltaTime) {
+  newRain.DownPour(deltaTime * 20);
   const elapsedTime = clock.getElapsedTime();
-  newRain.animateRain(0.01);
-  newWater.animateWaves(elapsedTime);
+  // newRain.animateRain(0.01);
+  // newWater.animateWaves(elapsedTime);
   if (WeatherData.current.wind_mph)
     newWindmill.rotateWindmill(WeatherData.current.wind_mph * deltaTime);
 }

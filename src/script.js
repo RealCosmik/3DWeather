@@ -7,14 +7,17 @@ import * as GithenduScene from "./Group/GithenduScene";
 import * as RichScene from "./Group/RichScene";
 import * as CloudScene from "./Group/CloudScene";
 import * as RainScene from "./Group/RainScene";
+import * as LightingScene from "./Group/LightingScene";
 import * as WeatherHelper from "./WeatherAPI";
 import * as Onsubmit from "./OnSubmit";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 const clock = new THREE.Clock();
-var scene, camera, canvas, renderer, audio;
+export var renderer = new THREE.WebGLRenderer();
+var scene, camera, canvas, audio;
 let previousTime = 0;
 var sceneUpdates = [];
+var targets = [];
 var controls;
 var loadStatus = false;
 InitalizeAppData();
@@ -131,10 +134,10 @@ async function SceneSelector(response) {
       await RainScene.Initalize(scene, camera, canvas);
       break;
     case "LightCloud":
-      await RainScene.Initalize(scene, camera, canvas, response);
+      await RainScene.Initalize(scene, camera, canvas);
       break;
     case "DarkCloud":
-      await RainScene.Initalize(scene, camera, canvas);
+      await RainScene.Initalize(scene, camera, canvas,);
       break;
     case "Rain":
       await RainScene.Initalize(scene, camera, canvas);
@@ -146,10 +149,10 @@ async function SceneSelector(response) {
       await RainScene.Initalize(scene, camera, canvas);
       break;
     default:
-      await RichScene.Initalize(scene, camera, canvas);
+      await RichScene.Initalize(scene, camera, canvas, renderer);
       break;
   }
-
+  await LightingScene.Initialize(scene, camera, canvas);
   //await CloudScene.Initalize(scene, camera, canvas);
   //await MichaelScene.Initalize(scene, camera, canvas);
 }
@@ -162,12 +165,11 @@ function RenderLoop() {
   previousTime = elapsedTime;
   camera.updateProjectionMatrix();
   controls.update();
-  for (let i = 0; i < sceneUpdates.length; i++) sceneUpdates[i](deltaTime);
-
+  for (let i = 0; i < sceneUpdates.length; i++)
+    sceneUpdates[i](deltaTime);
   renderer.render(scene, camera);
   window.requestAnimationFrame(RenderLoop);
 }
-
 export function RegisterOnSceneUpdate(updateCallback) {
   sceneUpdates.push(updateCallback);
 }
@@ -175,6 +177,7 @@ export function ClearExceptCamera() {
   scene.clear();
   scene.add(camera);
   sceneUpdates = [];
+  LightingScene.CleanUp();
 }
 export function PlayAudio(filePath) {
   // "/sounds/birds.mp3"

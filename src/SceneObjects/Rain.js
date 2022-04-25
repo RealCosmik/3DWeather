@@ -1,58 +1,35 @@
 import * as THREE from "three";
-import { Matrix4 } from "three";
-import particleVertex from "../Shaders/Particles/vertex.glsl";
-import particleFragment from "../Shaders/Particles/fragment.glsl";
+import { Color } from "three";
 export default class Rain {
-  rainParticles;
-  rainCount;
-  rainGeo;
-  bufferAttribute;
-  scaleAttrib;
+  raingeo = new THREE.BufferGeometry();
+  particleRender = new THREE.Points();
+  points = [];
   static async CreateRain() {
     const newRain = new Rain();
-    newRain.rainGeo = new THREE.BufferGeometry();
-    newRain.rainCount = 2000;
-    const particleBuffer = new Float32Array(newRain.rainCount * 3);
-    newRain.bufferAttribute = new THREE.BufferAttribute(particleBuffer, 3);
-    newRain.rainGeo.setAttribute("position", newRain.bufferAttribute);
-
-    const scalebuffer = new Float32Array(newRain.rainCount * 3);
-    newRain.scaleAttrib = new THREE.BufferAttribute(scalebuffer, 3)
-    newRain.rainGeo.setAttribute('scale', newRain.scaleAttrib);
-    var rainMaterial = this.GetParticleMaterial();
-    newRain.rainParticles = new THREE.Points(newRain.rainGeo, rainMaterial);
-    newRain.rainParticles.scale.set(10, 40, 1);
-    newRain.rainParticles.position.set(0, 20, 0);
-    rainMaterial.attr
-    const textureLoader = new THREE.TextureLoader()
-    const particleTexture = textureLoader.load("/textures/RainParticle.png")
-    // rainMaterial.transparent = true
-    /// rainMaterial.map = particleTexture
-    // rainMaterial.color = new THREE.Color('#ff88cc')
-    console.log(newRain.rainGeo.attributes);
-
+    for (let i = 0; i < 1000; i++) {
+      var rainDrop = new THREE.Vector3
+        (
+          Math.random() * 400 - 200,
+          Math.random() * 500 - 250,
+          Math.random() * 400 - 200,
+        );
+      newRain.points.push(rainDrop);
+    }
+    newRain.raingeo.setFromPoints(newRain.points)
+    const rainMaterial = new THREE.PointsMaterial({ color: 0xaaaaaa, size: 5, transparent: true });
+    rainMaterial.size = 5;
+    rainMaterial.color = new Color('blue');
+    newRain.particleRender = new THREE.Points(newRain.raingeo, rainMaterial);
     return newRain;
   }
-  animateRain(speed) {
-    for (let i = 0; i < this.rainCount; i++) {
-      this.bufferAttribute.array[i] = Math.random() * .8 - 0.5;
+  DownPour(deltaTime) {
+    for (let i = 0; i < 1000; i++) {
+      this.points[i].y -= deltaTime * Math.random() * 20;
+      if (this.points[i].y < -200) {
+        this.points[i].y = 300;
+      }
     }
-    for (let i = 0; i < this.rainCount; i++) {
-      this.scaleAttrib.array[i] = Math.random() * 5 - 0.5;
-    }
-    // const pos = new Matrix4();
-    // pos.setPosition(0, 0, 0);
-    // this.rainGeo.applyMatrix4(pos);
-    this.bufferAttribute.needsUpdate = true;
-    this.scaleAttrib.needsUpdate = true;
-    // this.rainParticles.rotation.y += speed;
-  }
-  static GetParticleMaterial() {
-    const particleMaterial = new THREE.ShaderMaterial();
-    particleMaterial.depthWrite = false;
-    particleMaterial.blending = THREE.AdditiveBlending;
-    particleMaterial.fragmentShader = particleFragment;
-    particleMaterial.vertexShader = particleVertex;
-    return particleMaterial;
+    this.raingeo.setFromPoints(this.points);
+
   }
 }

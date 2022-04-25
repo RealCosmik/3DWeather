@@ -26,11 +26,11 @@ export async function Initalize(scene, camera, canvas) {
   const group = new THREE.Group();
 
 
-  
+
   //GLOBE
-  globe = await Globe.CreateGlobe();
-  globe.globeModel.position.set(35, 0, 0);
-  group.add(globe.globeModel);
+  // globe = await Globe.CreateGlobe();
+  // globe.globeModel.position.set(35, 0, 0);
+  // group.add(globe.globeModel);
 
   console.log(globe.globeModel);
 
@@ -81,18 +81,18 @@ function AddLightsToScene(scene) {
   //Hemisphere light is really to make the cloud look good
   const hemisphereLight = new THREE.HemisphereLight(0xadd8e6, 0xffffff, 1);
   scene.add(hemisphereLight);
-  
+
   //Spotlight points right at the globe
   spotLight.position.set(10, 0, 50);
   //Pointing the spotlight right at the center of the globe
-  spotLight.target.position.set(35,0,0);
+  spotLight.target.position.set(35, 0, 0);
   //Updating the coordinate matrix for the spotlight so it points right at the globe
   spotLight.target.updateMatrixWorld();
   scene.add(spotLight);
 
   const spotLightHelper = new THREE.SpotLightHelper(spotLight, 0.2);
   //scene.add(spotLightHelper);
-  
+
 }
 
 function OnSceneUpdate(deltaTime) {
