@@ -1,3 +1,4 @@
+import * as THREE from "three";
 //srichs
 //3D model of a wind turbine generator and animates the blades of the windmill.
 //https://github.com/srichs/wind-turbine/blob/master/src/WindTurbine.js

@@ -1,4 +1,4 @@
-import { Sun } from "../SceneObjects/Sun"
+import {Sun} from "../SceneObjects/Sun"
 import * as entry from "../script";
 import * as THREE from "three";
 
@@ -7,11 +7,13 @@ var increase = true;
 var num = 0;
 var sunModel;
 const maxMovement = 1;
+
 export async function Initalize(scene, camera, canvas) {
     //  entry.ClearExceptCamera();
     entry.RegisterOnSceneUpdate(OnSceneUpdate);
     sunModel = (await Sun.CreateSun()).sunModel;
 }
+
 function AddLightsToScene(scene) {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
@@ -27,6 +29,7 @@ function AddLightsToScene(scene) {
     directionalLight.position.set(-5, 5, 0);
     scene.add(directionalLight);
 }
+
 function OnSceneUpdate(deltaTime) {
     deltaY += deltaTime;
     if (increase)

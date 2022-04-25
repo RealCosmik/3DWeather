@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { Cache as grassModel } from "three";
 
 //Eddie Lee, 2010
 //"Realistic real-time grass rendering"

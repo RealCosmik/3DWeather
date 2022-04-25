@@ -1,12 +1,11 @@
-import { Floor } from "../SceneObjects/Floor.js";
-import { Text } from "../SceneObjects/Text.js";
-import { Room } from "../SceneObjects/Room.js";
+import {Text} from "../SceneObjects/Text.js";
+import {Room} from "../SceneObjects/Room.js";
 import windmill from "../SceneObjects/Windmill";
 import * as entry from "../script";
 import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
-import { WeatherData } from "../WeatherAPI";
-import { Grass } from "../SceneObjects/Grass.js";
+import {WeatherData} from "../WeatherAPI";
+import {Grass} from "../SceneObjects/Grass.js";
 
 let newWindmill;
 
