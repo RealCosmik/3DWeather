@@ -11,11 +11,14 @@ import { Sun } from "../SceneObjects/Sun.js";
 var deltaY = 0;
 var increase = true;
 const maxMovement = 1;
-var cloud1;
-var cloud2;
-var cloud3;
-var cloud4;
-var cloud5;
+
+var newCloud;
+var newCloud2;
+var newCloud3;
+var newCloud4;
+var newCloud5; 
+
+//const spotLight = new THREE.SpotLight(0xffff99, 3, 165, .25, 0, 1, 1);
 
 export async function Initalize(scene, camera, canvas) {
   scene.background = new THREE.Color(0x53789e);
@@ -46,18 +49,21 @@ export async function Initalize(scene, camera, canvas) {
   textTemperature.position.set(-2.4, 1, 2);
   textTemperature.rotateY(-300);
 
-  groupModels.add(await Duck(scene), await Floor(scene), await Room(scene));
+  newCloud = await Cloud.CreateCloud();
+  newCloud2 = await Cloud.CreateCloud();
+  newCloud3 = await Cloud.CreateCloud();
+  newCloud4 = await Cloud.CreateCloud();
+  newCloud5 = await Cloud.CreateCloud();
+  const newDuck = await Duck.CreateNewDuck();
+  const newFloor = await Floor.CreateFloor();
+  newFloor.floorModel.receiveShadow=true;
+  const newRoom = await Room.CreateRoom();
+  newRoom.roomModel.receiveShadow=true;
+
+  groupModels.add(newDuck.duckModel, newFloor.floorModel, newRoom.roomModel);
 
   groupModels.scale.set(8, 8, 8);
   groupTexts.scale.set(8, 8, 8);
-
-  //Creating 5 clouds
-  cloud1 = await Cloud(scene)
-  cloud2 = await Cloud(scene)
-  cloud3 = await Cloud(scene)
-  cloud4 = await Cloud(scene)
-  cloud5 = await Cloud(scene)
-
 
   /*
     -There are multiple clouds in the scene simply clumped together 
@@ -66,27 +72,29 @@ export async function Initalize(scene, camera, canvas) {
     -grouping of the clouds is below
   */
   //Cloud 1
-  cloud1.scale.set(1, 1, 1);
-  cloud1.position.set(0,0,0);
+  newCloud.cloudModel.scale.set(1, 1, 1);
+  newCloud.cloudModel.position.set(0,0,0);
 
   //Cloud 2
-  cloud2.scale.set(1, 1, 1);
-  cloud2.position.set(5,0,6);
+  newCloud2.cloudModel.scale.set(1, 1, 1);
+  newCloud2.cloudModel.position.set(5,0,6);
 
   //Cloud 3
-  cloud3.scale.set(1.5, 1.5, 1.8);
-  cloud3.position.set(-5,5,0);
+  newCloud3.cloudModel.scale.set(1.5, 1.5, 1.8);
+  newCloud3.cloudModel.position.set(-5,5,0);
 
   //Cloud 4
-  cloud4.scale.set(1.2, 1.2, 1.2);
-  cloud4.position.set(4.5,-2.7,9);
+  newCloud4.cloudModel.scale.set(1.2, 1.2, 1.2);
+  newCloud4.cloudModel.position.set(4.5,-2.7,9);
 
   //Cloud 5
-  cloud5.scale.set(1, 1, 1);
-  cloud5.position.set(-2,0,5);
+  newCloud5.cloudModel.scale.set(1, 1, 1);
+  newCloud5.cloudModel.position.set(-2,0,5);
 
   //Grouping of clouds for easy movement and manipulation of all of them
-  groupClouds.add(cloud1, cloud2, cloud3, cloud4, cloud5)
+  groupClouds.add(newCloud.cloudModel, newCloud2.cloudModel, newCloud3.cloudModel, newCloud4.cloudModel, newCloud5.cloudModel);
+  groupClouds.castShadow =true;
+  groupClouds.receiveShadow=false;
   
   //Set position of all the coulds
   groupClouds.position.set(0, 42, 0)
@@ -101,74 +109,55 @@ export async function Initalize(scene, camera, canvas) {
 
   const axesHelper = new THREE.AxesHelper( 5 );
   axesHelper.scale.set(10,10,10)
-  scene.add( axesHelper );
+  //scene.add( axesHelper );
 
-  //scene.add(groupModels, groupTexts, groupSunCloud);
   scene.add(groupModels, groupTexts);
   AddLightsToScene(scene);
-  // entry.RegisterOnSceneUpdate(Update);
+
   entry.RegisterOnSceneUpdate(OnSceneUpdate);
 }
 
 function AddLightsToScene(scene) {
-  const hemisphereLight = new THREE.HemisphereLight(0xadd8e6, 0xffffff, 0.3);
-  scene.add(hemisphereLight);
 
-  const pointLight = new THREE.PointLight(0xff9000, 0.4, 10, 2);
-  scene.add(pointLight);
+  const spotLight = new THREE.SpotLight(0xffff99, 3, 165, .35, 0, 1, 1);
+  spotLight.castShadow = true;
 
-//   const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
-//   scene.add(ambientLight);
+  spotLight.position.set(25, 130, 25);
 
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-  directionalLight.castShadow = true;
-  directionalLight.shadow.mapSize.set(1024, 1024);
-  directionalLight.shadow.camera.far = 15;
-  directionalLight.shadow.camera.left = -7;
-  directionalLight.shadow.camera.top = 10;
-  directionalLight.shadow.camera.right = 7;
-  directionalLight.shadow.camera.bottom = -7;
-  directionalLight.position.set(0, 75, 0);
-  //directionalLight.
-  scene.add(directionalLight);
+  spotLight.target.position.set(0,0,0);
 
-  const hemisphereLightHelper = new THREE.HemisphereLightHelper(
-    hemisphereLight,
-    0.2
-  );
-  scene.add(hemisphereLightHelper);
+  //Updating the coordinate matrix for the spotlight so it points right at the globe
+  spotLight.target.updateMatrixWorld();
+  scene.add(spotLight);
 
-  const directionalLightHelper = new THREE.DirectionalLightHelper(
-    directionalLight,
-    0.2
-  );
-  scene.add(directionalLightHelper);
+  spotLight.shadow.mapSize.width = 512; // default
+  spotLight.shadow.mapSize.height = 512; // default
+  spotLight.shadow.camera.near = 0.5; // default
+  spotLight.shadow.camera.far = 500; // default
+  spotLight.shadow.focus = 1; // default
 
-  const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2);
-  scene.add(pointLightHelper);
-
-  const directionalLightCameraHelper = new THREE.CameraHelper(
-    directionalLight.shadow.camera
-  );
-  scene.add(directionalLightCameraHelper);
+  const spotLightHelper = new THREE.SpotLightHelper(spotLight, 0.2);
+  //scene.add(spotLightHelper);
 }
+
 
 function OnSceneUpdate(deltaTime) {
   deltaY += deltaTime;
   if (increase)
-      cloud1.position.y += deltaTime,
-      cloud2.position.y -= deltaTime,
-      cloud3.position.y += deltaTime,
-      cloud4.position.y -= deltaTime,
-      cloud5.position.y += deltaTime;
+      newCloud.cloudModel.position.y += deltaTime,
+      newCloud2.cloudModel.position.y -= deltaTime,
+      newCloud3.cloudModel.position.y += deltaTime,
+      newCloud4.cloudModel.position.y -= deltaTime,
+      newCloud5.cloudModel.position.y += deltaTime;
   else
-      cloud1.position.y -= deltaTime,
-      cloud2.position.y += deltaTime,
-      cloud3.position.y -= deltaTime,
-      cloud4.position.y += deltaTime,
-      cloud5.position.y -= deltaTime;
+      newCloud.cloudModel.position.y -= deltaTime,
+      newCloud2.cloudModel.position.y += deltaTime,
+      newCloud3.cloudModel.position.y -= deltaTime,
+      newCloud4.cloudModel.position.y += deltaTime,
+      newCloud5.cloudModel.position.y -= deltaTime;
   if (deltaY >= maxMovement) {
       increase = !increase;
       deltaY = 0;
   }
+  
 }
