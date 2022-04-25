@@ -82,9 +82,6 @@ export async function Initalize(scene, camera, canvas) {
 
   groupTexts.add(textLocation, textRegion, textCondition, textTemperature);
 
-  const axesHelper = new THREE.AxesHelper(5);
-  axesHelper.scale.set(10, 10, 10);
-  scene.add(axesHelper);
 
   scene.add(groupModels, groupTexts, groupSunCloud);
 

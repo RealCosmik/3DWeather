@@ -13,6 +13,7 @@ import * as LightingScene from "./Group/LightingScene";
 import * as WeatherHelper from "./WeatherAPI";
 import * as Onsubmit from "./OnSubmit";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import Rain from "./SceneObjects/Rain";
 
 const clock = new THREE.Clock();
 export var renderer = new THREE.WebGLRenderer();
@@ -135,7 +136,7 @@ async function SceneSelector(response) {
       await JustinScene.Initalize(scene, camera, canvas);
       break;
     case "LightCloud":
-      await CloudScene.Initalize(scene, camera, canvas);
+      await RainScene.Initalize(scene, camera, canvas);
       break;
     case "DarkCloud":
       await CloudScene.Initalize(scene, camera, canvas);
