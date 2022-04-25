@@ -136,7 +136,7 @@ async function SceneSelector(response) {
       await JustinScene.Initalize(scene, camera, canvas);
       break;
     case "LightCloud":
-      await RainScene.Initalize(scene, camera, canvas);
+      await CloudScene.Initalize(scene, camera, canvas);
       break;
     case "DarkCloud":
       await CloudScene.Initalize(scene, camera, canvas);
