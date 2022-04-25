@@ -192,5 +192,8 @@ export function PlayAudio(filePath) {
 }
 function UpdateRefreshTimer() {
   const elapsedSeconds = clock.elapsedTime;
+  if (elapsedSeconds % 300 >= 299.99) {
+    LoadScene(Onsubmit.userZipCode);
+  }
   //  console.log(elapsedSeconds.toFixed(1) % 10);
 }
