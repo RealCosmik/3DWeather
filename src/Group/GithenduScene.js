@@ -126,7 +126,7 @@ function AddGrassToScene(scene, canvas){
     //Variables for blade mesh
     var joints = 4;
     var bladeWidth = 0.12;
-    var bladeHeight = 8;
+    var bladeHeight = 6;
 
 //Number of vertices on ground plane side
     var resolution = 64;
@@ -141,7 +141,7 @@ function AddGrassToScene(scene, canvas){
     pos = new THREE.Vector2(0.01, 0.01);
 
 //Number of blades
-    var instances = 600000;
+    var instances = 500000;
 
     //Lighting variables for grass
     var ambientStrength = 0.7;
@@ -265,7 +265,7 @@ vec3 getNormal(vec3 pos){
     var ground = new THREE.Mesh(groundGeometry, groundMaterial);
 
     ground.position.y = .5
-    ground.scale.set(.05, .05, .05);
+    ground.scale.set(.06, .06, .06);
 
     ground.geometry.computeVertexNormals();
     scene.add(ground);
@@ -627,7 +627,7 @@ void main() {
 
     var grass = new THREE.Mesh(instancedGeometry, grassMaterial);
     grass.position.y = 0.5;
-    grass.scale.set(.05, .05, .05);
+    grass.scale.set(.06, .06, .06);
 
     scene.add(grass);
 }
@@ -637,6 +637,6 @@ function Update(deltaTime) {
     if (WeatherData.current.wind_mph){
 
         newWindmill.rotateWindmill(WeatherData.current.wind_mph * deltaTime);
-        grassMaterial.uniforms.time.value += deltaTime * WeatherData.current.wind_mph ;
+        grassMaterial.uniforms.time.value += (deltaTime * WeatherData.current.wind_mph * 0.5) ;
     }
 }
