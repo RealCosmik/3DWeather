@@ -71,9 +71,6 @@ export async function Initalize(scene, camera, canvas) {
 
   scene.add(groupModels, groupTexts, groupSunCloud);
 
-  newRain = await Rain.CreateRain();
-  scene.add(newRain.rainParticles);
-  newRain.rainParticles.position.set(0, 50, 0);
   AddLightsToScene(scene);
   entry.RegisterOnSceneUpdate(Update);
 }
@@ -109,7 +106,7 @@ function AddLightsToScene(scene) {
     directionalLight,
     0.2
   );
-  scene.add(directionalLightHelper);
+  // scene.add(directionalLightHelper);
 
   const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2);
   scene.add(pointLightHelper);
@@ -121,7 +118,6 @@ function AddLightsToScene(scene) {
 }
 
 function Update(deltaTime) {
-  newRain.animateRain(0.01);
   if (WeatherData.current.wind_mph)
     newWindmill.rotateWindmill(WeatherData.current.wind_mph * deltaTime);
 }
