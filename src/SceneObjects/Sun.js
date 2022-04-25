@@ -2,7 +2,8 @@ import * as THREE from "three";
 
 export class Sun {
     sunModel = new THREE.Object3D();
-    sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    sunMaterial = new THREE.MeshBasicMaterial({color: 0xffff00});
+
     static async CreateSun() {
         const newSun = new Sun();
         const geometry = new THREE.SphereGeometry(15, 32, 16);
