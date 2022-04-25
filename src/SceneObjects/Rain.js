@@ -5,22 +5,28 @@ export default class Rain {
   particleRender = new THREE.Points();
   points = [];
   rainMaterial = new THREE.PointsMaterial();
-  static async CreateRain() {
+  static async CreateRain(color) {
     const newRain = new Rain();
     for (let i = 0; i < 1000; i++) {
-      var rainDrop = new THREE.Vector3
-        (
-          Math.random() * 400 - 200,
-          Math.random() * 500 - 250,
-          Math.random() * 400 - 200,
-        );
+      var rainDrop = new THREE.Vector3(
+        Math.random() * 400 - 200,
+        Math.random() * 500 - 250,
+        Math.random() * 400 - 200
+      );
       newRain.points.push(rainDrop);
     }
-    newRain.raingeo.setFromPoints(newRain.points)
-    newRain.rainMaterial = new THREE.PointsMaterial({ color: 0xaaaaaa, size: 5, transparent: true });
+    newRain.raingeo.setFromPoints(newRain.points);
+    newRain.rainMaterial = new THREE.PointsMaterial({
+      color: 0xaaaaaa,
+      size: 5,
+      transparent: true,
+    });
     newRain.rainMaterial.size = 5;
-    newRain.rainMaterial.color = new Color('blue');
-    newRain.particleRender = new THREE.Points(newRain.raingeo, rainMaterial);
+    newRain.rainMaterial.color = new Color("Blue");
+    newRain.particleRender = new THREE.Points(
+      newRain.raingeo,
+      newRain.rainMaterial
+    );
     return newRain;
   }
   DownPour(deltaTime) {
@@ -31,6 +37,5 @@ export default class Rain {
       }
     }
     this.raingeo.setFromPoints(this.points);
-
   }
 }

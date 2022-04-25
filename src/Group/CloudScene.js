@@ -6,7 +6,10 @@ import { Room } from "../SceneObjects/Room.js";
 import * as entry from "../script";
 import * as THREE from "three";
 import * as WeatherHelper from "../WeatherAPI";
+import { WeatherData } from "../WeatherAPI";
 import { Sun } from "../SceneObjects/Sun.js";
+import { Grass } from "../SceneObjects/Grass.js";
+import windmill from "../SceneObjects/Windmill";
 
 var deltaY = 0;
 var increase = true;
@@ -16,6 +19,8 @@ var cloud2;
 var cloud3;
 var cloud4;
 var cloud5;
+let newWindmill;
+let grass = new Grass();
 
 export async function Initalize(scene, camera, canvas) {
   scene.background = new THREE.Color(0x53789e);
@@ -23,17 +28,26 @@ export async function Initalize(scene, camera, canvas) {
   var groupTexts = new THREE.Group();
   var groupClouds = new THREE.Group();
 
-  var textLocation = await Text(scene, WeatherHelper.WeatherData.location.name, false);
+  var textLocation = await Text(
+    scene,
+    WeatherHelper.WeatherData.location.name,
+    false
+  );
   textLocation.position.set(-2.4, 4, 2);
   textLocation.rotateY(-300);
 
-  var textRegion = await Text(scene, WeatherHelper.WeatherData.location.region, true);
+  var textRegion = await Text(
+    scene,
+    WeatherHelper.WeatherData.location.region,
+    true
+  );
   textRegion.position.set(-2.4, 3.25, 2);
   textRegion.rotateY(-300);
 
   var textCondition = await Text(
     scene,
-    WeatherHelper.WeatherData.current.condition.text, false
+    WeatherHelper.WeatherData.current.condition.text,
+    false
   );
   textCondition.position.set(-2.4, 1.75, 2);
   textCondition.rotateY(-300);
@@ -46,10 +60,13 @@ export async function Initalize(scene, camera, canvas) {
   textTemperature.position.set(-2.4, 1, 2);
   textTemperature.rotateY(-300);
 
-  const newDuck = await Duck.CreateNewDuck();
   const newFloor = await Floor.CreateFloor();
   const newRoom = await Room.CreateRoom();
-  groupModels.add(newDuck.duckModel, newFloor.floorModel, newRoom.roomModel);
+  newWindmill = await windmill.CreateWindmill();
+  newWindmill.windmillGroup.position.set(0, 10.5, 0);
+  newWindmill.windmillGroup.rotateY(45);
+  scene.add(newWindmill.windmillGroup);
+  groupModels.add(newFloor.floorModel, newRoom.roomModel);
 
   groupModels.scale.set(8, 8, 8);
   groupTexts.scale.set(8, 8, 8);
@@ -60,7 +77,6 @@ export async function Initalize(scene, camera, canvas) {
   cloud3 = await Cloud.CreateCloud();
   cloud4 = await Cloud.CreateCloud();
   cloud5 = await Cloud.CreateCloud();
-
 
   /*
     -There are multiple clouds in the scene simply clumped together 
@@ -89,25 +105,30 @@ export async function Initalize(scene, camera, canvas) {
   cloud5.cloudModel.position.set(-2, 0, 5);
 
   //Grouping of clouds for easy movement and manipulation of all of them
-  groupClouds.add(cloud1.cloudModel, cloud2.cloudModel, cloud3.cloudModel, cloud4.cloudModel, cloud5.cloudModel)
+  groupClouds.add(
+    cloud1.cloudModel,
+    cloud2.cloudModel,
+    cloud3.cloudModel,
+    cloud4.cloudModel,
+    cloud5.cloudModel
+  );
 
   //Set position of all the coulds
-  groupClouds.position.set(0, 42, 0)
+  groupClouds.position.set(0, 42, 0);
 
   //Adding clouds to scene
-  scene.add(groupClouds)
+  scene.add(groupClouds);
 
   camera.far = 5000;
   camera.position.set(135, 30, 45);
 
   groupTexts.add(textLocation, textRegion, textCondition, textTemperature);
 
-  const axesHelper = new THREE.AxesHelper(5);
-  axesHelper.scale.set(10, 10, 10)
-  scene.add(axesHelper);
-
   //scene.add(groupModels, groupTexts, groupSunCloud);
   scene.add(groupModels, groupTexts);
+  grass = await Grass.CreateGrass(canvas);
+  grass.grassGroup.scale.set(0.7, 1, 0.7);
+  scene.add(grass.grassGroup);
   AddLightsToScene(scene);
   // entry.RegisterOnSceneUpdate(Update);
   entry.RegisterOnSceneUpdate(OnSceneUpdate);
@@ -134,44 +155,28 @@ function AddLightsToScene(scene) {
   directionalLight.position.set(0, 75, 0);
   //directionalLight.
   scene.add(directionalLight);
-
-  const hemisphereLightHelper = new THREE.HemisphereLightHelper(
-    hemisphereLight,
-    0.2
-  );
-  scene.add(hemisphereLightHelper);
-
-  const directionalLightHelper = new THREE.DirectionalLightHelper(
-    directionalLight,
-    0.2
-  );
-  scene.add(directionalLightHelper);
-
-  const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2);
-  scene.add(pointLightHelper);
-
-  const directionalLightCameraHelper = new THREE.CameraHelper(
-    directionalLight.shadow.camera
-  );
-  scene.add(directionalLightCameraHelper);
 }
 
 function OnSceneUpdate(deltaTime) {
   deltaY += deltaTime;
   if (increase)
-    cloud1.cloudModel.position.y += deltaTime,
-      cloud2.cloudModel.position.y -= deltaTime,
-      cloud3.cloudModel.position.y += deltaTime,
-      cloud4.cloudModel.position.y -= deltaTime,
-      cloud5.cloudModel.position.y += deltaTime;
+    (cloud1.cloudModel.position.y += deltaTime),
+      (cloud2.cloudModel.position.y -= deltaTime),
+      (cloud3.cloudModel.position.y += deltaTime),
+      (cloud4.cloudModel.position.y -= deltaTime),
+      (cloud5.cloudModel.position.y += deltaTime);
   else
-    cloud1.cloudModel.position.y -= deltaTime,
-      cloud2.cloudModel.position.y += deltaTime,
-      cloud3.cloudModel.position.y -= deltaTime,
-      cloud4.cloudModel.position.y += deltaTime,
-      cloud5.cloudModel.position.y -= deltaTime;
+    (cloud1.cloudModel.position.y -= deltaTime),
+      (cloud2.cloudModel.position.y += deltaTime),
+      (cloud3.cloudModel.position.y -= deltaTime),
+      (cloud4.cloudModel.position.y += deltaTime),
+      (cloud5.cloudModel.position.y -= deltaTime);
   if (deltaY >= maxMovement) {
     increase = !increase;
     deltaY = 0;
+  }
+  if (WeatherData.current.wind_mph) {
+    newWindmill.rotateWindmill(WeatherData.current.wind_mph * deltaTime);
+    grass.swayGrass(deltaTime * WeatherData.current.wind_mph);
   }
 }
