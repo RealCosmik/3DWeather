@@ -37,16 +37,10 @@ Start the server
   npm run dev
 ```
 
-
-## Screenshots
-
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-
-
 ## Demo
-
-Insert gif or link to demo
-
+![Globe Gif](https://i.gyazo.com/36456823584f9560f7d9e2b0d88d6c89.gif)
+![Rain Gif](https://i.gyazo.com/da340b0fe79541d5118dbd723b426c27.gif)
+![Wave Gif](https://i.gyazo.com/8a00385ad68f09136b32219f996b78d5.gif)
 
 ## Acknowledgements
 

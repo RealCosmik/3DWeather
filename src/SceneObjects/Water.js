@@ -8,7 +8,11 @@ export class Water {
     waterModel;
     waterMaterial = new ShaderMaterial();
     groupModel;
-
+    
+    /*
+        Globe Model credited to Bruno Simon
+        Sourced from https://threejs-journey.com/lessons/29
+    */
     static async CreateWater() {
         const newWater = new Water();
         newWater.groupModel = new THREE.Group();
