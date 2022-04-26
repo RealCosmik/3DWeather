@@ -17,8 +17,7 @@ var cloud;
 const spotLight = new THREE.SpotLight(0xffffff, 10, 75, .25, 0, 1);
 
 export async function Initalize(scene, camera, canvas) {
-    //entry.ClearExceptCamera();
-
+  
     camera.position.set(0, 0, 75);
 
     //Creating a group for both the globe and the text to be changed at same time
@@ -53,13 +52,6 @@ export async function Initalize(scene, camera, canvas) {
     cloud.cloudModel.position.y = 27;
     cloud.cloudModel.rotateX(1);
 
-
-    //axes helper
-    // const axesHelper = new THREE.AxesHelper(5);
-    // axesHelper.scale.set(10, 10, 10)
-    // scene.add(axesHelper);
-
-
     //adding the group to the scene
     scene.add(group);
 
@@ -89,19 +81,18 @@ function AddLightsToScene(scene) {
 }
 
 function OnSceneUpdate(deltaTime) {
-    //BounceCloud(cloud.cloudModel, deltaTime);
-    //cloud.cloudModel.rotateZ(.002);
+    //Spins the globe slowly
     globe.globeModel.rotateY(-.004);
 }
 
-function BounceCloud(cloudModel, deltaTime) {
-    deltaY += deltaTime;
-    if (increase)
-        cloudModel.position.y += deltaTime * .75;
-    else
-        cloudModel.position.y -= deltaTime * .75;
-    if (deltaY >= maxMovement) {
-        increase = !increase;
-        deltaY = 0;
-    }
-}
+// function BounceCloud(cloudModel, deltaTime) {
+//     deltaY += deltaTime;
+//     if (increase)
+//         cloudModel.position.y += deltaTime * .75;
+//     else
+//         cloudModel.position.y -= deltaTime * .75;
+//     if (deltaY >= maxMovement) {
+//         increase = !increase;
+//         deltaY = 0;
+//     }
+// }

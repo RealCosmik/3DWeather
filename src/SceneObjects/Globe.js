@@ -3,7 +3,7 @@ import {FBXLoader} from "three/examples/jsm/loaders/FBXLoader.js";
 export class Globe {
 
     /*
-        Globe Model credited to Alan Ziimmerman
+        Globe Model credited to Alan Zimmerman
         Sourced from https://sketchfab.com/3d-models/earth-8a3f6e66955e41d48762d75725d3ab52
     */
 

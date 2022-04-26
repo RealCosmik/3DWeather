@@ -13,12 +13,18 @@ import windmill from "../SceneObjects/Windmill";
 var deltaY = 0;
 var increase = true;
 const maxMovement = 1;
+
+//Initializing 5 clouds
 var cloud1;
 var cloud2;
 var cloud3;
 var cloud4;
 var cloud5;
+
+//initialize Windmill
 let newWindmill;
+
+//Initialize grass
 let grass = new Grass();
 
 export async function Initalize(scene, camera, canvas) {
@@ -122,13 +128,12 @@ export async function Initalize(scene, camera, canvas) {
 
     groupTexts.add(textLocation, textRegion, textCondition, textTemperature);
 
-    //scene.add(groupModels, groupTexts, groupSunCloud);
     scene.add(groupModels, groupTexts);
     grass = await Grass.CreateGrass(canvas);
     grass.grassGroup.scale.set(0.7, 1, 0.7);
     scene.add(grass.grassGroup);
+
     AddLightsToScene(scene);
-    // entry.RegisterOnSceneUpdate(Update);
     entry.RegisterOnSceneUpdate(OnSceneUpdate);
 }
 
@@ -151,12 +156,14 @@ function AddLightsToScene(scene) {
     directionalLight.shadow.camera.right = 7;
     directionalLight.shadow.camera.bottom = -7;
     directionalLight.position.set(0, 75, 0);
-    //directionalLight.
+
     scene.add(directionalLight);
 }
 
 function OnSceneUpdate(deltaTime) {
     deltaY += deltaTime;
+
+    //This giant if/else is to make the animation of the clouds (they bounce up and down)
     if (increase)
         (cloud1.cloudModel.position.y += deltaTime),
             (cloud2.cloudModel.position.y -= deltaTime),
