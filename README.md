@@ -37,7 +37,8 @@ Start the server
   npm run dev
 ```
 
-## Demo
+## Demo!
+![Clear Screenshot](https://media.discordapp.net/attachments/931580436071739425/968703054499156018/IMG_1621.png?width=572&height=1238)
 ![Globe Gif](https://i.gyazo.com/36456823584f9560f7d9e2b0d88d6c89.gif)
 ![Rain Gif](https://i.gyazo.com/da340b0fe79541d5118dbd723b426c27.gif)
 ![Wave Gif](https://i.gyazo.com/8a00385ad68f09136b32219f996b78d5.gif)
