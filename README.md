@@ -12,6 +12,11 @@ We created a 3D weather web application. This web application can fetch weather 
 - Michael Berthaud: [@RealCosmik](https://github.com/RealCosmik)
 - Githendu Mukiri: [@githendumukiri](https://github.com/githendumukiri) 
 ## Run Locally
+Make sure you have node.js installed on your machine before running any npm commands
+
+```bash
+  git clone https://github.com/RealCosmik/3DWeather.git
+```
 
 Clone the project
 
