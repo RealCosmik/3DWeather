@@ -142,8 +142,8 @@ function AddLightsToScene(scene) {
     const hemisphereLight = new THREE.HemisphereLight(0xadd8e6, 0xffffff, 0.3);
     scene.add(hemisphereLight);
 
-    const pointLight = new THREE.PointLight(0xff9000, 0.4, 10, 2);
-    scene.add(pointLight);
+    // const pointLight = new THREE.PointLight(0xff9000, 0.4, 10, 2);
+    // scene.add(pointLight);
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
     scene.add(ambientLight);
