@@ -28,6 +28,7 @@ let newWindmill;
 let grass = new Grass();
 
 export async function Initalize(scene, camera, canvas) {
+    entry.PlayAudio("/sounds/birds.mp3");
     scene.background = new THREE.Color(0x53789e);
     var groupModels = new THREE.Group();
     var groupTexts = new THREE.Group();

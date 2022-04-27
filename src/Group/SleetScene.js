@@ -18,6 +18,7 @@ const clock = new THREE.Clock();
 var mainCamera = new Camera();
 
 export async function Initalize(scene, camera, canvas) {
+    entry.PlayAudio("/sounds/rain.mp3");
     mainCamera = camera;
     scene.background = new THREE.Color(0x53789e);
 
